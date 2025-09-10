@@ -1,0 +1,2 @@
+git config --global user.name DRILLE-BAIANO
+git config --global user.email duduzimhard@gmail.com
