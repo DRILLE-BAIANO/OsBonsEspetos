@@ -26,6 +26,7 @@ app.UseStaticFiles(); // Habilita o serviço de arquivos estáticos (wwwroot)
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

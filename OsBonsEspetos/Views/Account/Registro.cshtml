@@ -1,0 +1,102 @@
+@model GStore.ViewModels.RegistroVM
+
+@{
+    ViewData["Title"] = "Registro";
+    Layout = "~/Views/Shared/_LayoutAccount.cshtml";
+}
+
+<div class="container">
+    <div class="shadow-sm bg-body-tertiary rounded mt-3">
+        <h3 class="display-6 text-center">Criar Conta</h3>
+    </div>
+    
+    <div class="text-center font-weight-light my-4">Criação de Conta</div>
+
+    <form asp-action="Registro" method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="form-floating mb-3">
+                    <input asp-for="Nome" class="form-control" />
+                    <label asp-for="Nome" class="form-label"></label>
+                    <span asp-validation-for="Nome" class="text-danger text-sm"></span>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="Email" class="form-control" />
+                    <label asp-for="Email" class="form-label"></label>
+                    <span asp-validation-for="Email" class="text-danger text-sm"></span>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="Senha" class="form-control" />
+                    <label asp-for="Senha" class="form-label"></label>
+                    <span asp-validation-for="Senha" class="text-danger text-sm"></span>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="ConfirmacaoSenha" class="form-control" />
+                    <label asp-for="ConfirmacaoSenha" class="form-label"></label>
+                    <span asp-validation-for="ConfirmacaoSenha" class="text-danger text-sm"></span>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="DataNascimento" class="form-control" />
+                    <label asp-for="DataNascimento" class="form-label"></label>
+                    <span asp-validation-for="DataNascimento" class="text-danger text-sm"></span>
+                </div>
+            </div>
+
+            <div class="col-md-6 d-flex align-items-center justify-content-center">
+                <div class="mb-3 text-center">
+                    <img id="PreviewImage" src="~/img/usuarios/no-photo.png" class="rounded-circle shadow-sm" style="width: 200px; height: 200px;" />
+                    <div class="mt-2">
+                        <label class="btn btn-outline-primary">
+                            <i class="bi bi-cloud-upload"></i> Foto do Avatar
+                            <input type="file" asp-for="Foto" accept=".jpg,.jpeg,.png,.gif,.jfif" hidden />
+                        </label>
+                        <span asp-validation-for="Foto" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex flex-column align-items-center justify-content-center mt-4 mb-3">
+            <input type="submit" class="btn btn-primary w-50 mb-3" value="Criar Conta" />
+            <div class="small">Já possui um conta? <a asp-action="Login">Faz login!</a></div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial.cshtml" />
+    <script type="text/javascript">
+        let mensagemErro = '';
+        if ($('.validation-summary-errors ul li').length > 0) {
+            mensagemErro = $('.validation-summary-errors ul li').text() + "<br />";
+        }
+
+        if (mensagemErro != '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Acesso Negado',
+                html: mensagemErro
+            });
+        }
+
+        function changeImage() {
+            document.querySelector('input[type="file"]').click();
+        }
+
+        window.addEventListener('load', function () {
+            document.querySelector('input[type="file"]').addEventListener('change', function () {
+                if (this.files && this.files[0]) {
+                    var img = document.getElementById("PreviewImage");
+                    img.src = URL.createObjectURL(this.files[0]);
+                }
+            });
+        });
+    </script>
+}
