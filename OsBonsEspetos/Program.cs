@@ -9,7 +9,7 @@ builder.Services.AddControllersWithViews();
 
 // Configurar a conexão com o banco de dados usando Entity Framework Core
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 var app = builder.Build();

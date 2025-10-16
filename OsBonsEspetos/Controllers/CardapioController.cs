@@ -8,9 +8,9 @@ namespace OsBonsEspetosDotNet.Controllers
 { 
     public class CardapioController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly AppDbContext _context;
 
-        public CardapioController(ApplicationDbContext context)
+        public CardapioController(AppDbContext context)
         {
             _context = context;
         }

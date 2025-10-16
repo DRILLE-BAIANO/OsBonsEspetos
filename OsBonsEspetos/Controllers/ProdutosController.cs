@@ -5,8 +5,8 @@ namespace OsBonsEspetosDotNet.Controllers
 {
     public class ProdutosController : Controller
     {
-        private readonly ApplicationDbContext _context;
-        public ProdutosController(ApplicationDbContext context)
+        private readonly AppDbContext _context;
+        public ProdutosController(AppDbContext context)
         {
             _context = context;
         }

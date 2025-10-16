@@ -5,8 +5,8 @@ namespace OsBonsEspetosDotNet.Controllers
 {
     public class ReservasController : Controller
     {
-        private readonly ApplicationDbContext _context;
-        public ReservasController(ApplicationDbContext context)
+        private readonly AppDbContext _context;
+        public ReservasController(AppDbContext context)
         {
             _context = context;
         }

@@ -1,6 +1,6 @@
-using GStore.Models;
+using OsBonsEspetos.Models;
 
-namespace GStore.ViewModels;
+namespace OsBonsEspetos.ViewModels;
 
 public class ProdutoVM
 {
