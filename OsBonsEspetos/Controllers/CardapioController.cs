@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
-using OsBonsEspetosDotNet.Data;
-using OsBonsEspetosDotNet.Models;
+using OsBonsEspetos.Data;
+using OsBonsEspetos.Models;
 using System.Linq;
 
 // Correção 1: Adicionada a chave de abertura para o namespace
-namespace OsBonsEspetosDotNet.Controllers
+namespace OsBonsEspetos.Controllers
 { 
     public class CardapioController : Controller
     {

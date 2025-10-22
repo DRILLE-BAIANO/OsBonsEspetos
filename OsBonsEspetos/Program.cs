@@ -1,6 +1,6 @@
-// OsBonsEspetosDotNet/Program.cs
+// OsBonsEspetos/Program.cs
 using Microsoft.EntityFrameworkCore;
-using OsBonsEspetosDotNet.Data; // Assumindo que você terá uma pasta Data para o DbContext
+using OsBonsEspetos.Data; // Assumindo que você terá uma pasta Data para o DbContext
 
 var builder = WebApplication.CreateBuilder(args);
 

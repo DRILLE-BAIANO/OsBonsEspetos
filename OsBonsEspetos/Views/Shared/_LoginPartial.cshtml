@@ -5,7 +5,7 @@
 
 @{
     var user = UserManager.GetUserName(User);
-    var usuario = _db.Usuarios.FirstOrDefault(u => u.UserName == user);
+    var usuario = _db.Users.FirstOrDefault(u => u.UserName == user);
 }
 
 @if (!SignInManager.IsSignedIn(User))

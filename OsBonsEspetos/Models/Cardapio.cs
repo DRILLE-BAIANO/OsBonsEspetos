@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations; // Para validações
-namespace OsBonsEspetosDotNet.Models
+namespace OsBonsEspetos.Models
 {
     public class Cardapio
     {

@@ -1,6 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-namespace OsBonsEspetosDotNet.Models
+namespace OsBonsEspetos.Models
 {
     public class Reserva
     {

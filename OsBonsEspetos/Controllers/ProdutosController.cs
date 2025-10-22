@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using OsBonsEspetosDotNet.Data;
-using OsBonsEspetosDotNet.Models;
-namespace OsBonsEspetosDotNet.Controllers
+using OsBonsEspetos.Data;
+using OsBonsEspetos.Models;
+namespace OsBonsEspetos.Controllers
 {
     public class ProdutosController : Controller
     {
