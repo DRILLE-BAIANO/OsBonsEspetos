@@ -1,0 +1,38 @@
+@model IEnumerable<OsBonsEspetos.Models.Produto>
+
+@{
+    ViewData["Title"] = "Produtos - Carrinho";
+    Layout = "_Layout";
+}
+
+<h1>Carrinho de Produtos</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Adicionar Novo Produto</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Preço</th>
+            <th>Descrição</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Nome</td>
+                <td>@item.Preco.ToString("C")</td>
+                <td>@item.Descricao</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Detalhes</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Deletar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
