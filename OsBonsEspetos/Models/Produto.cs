@@ -1,14 +1,15 @@
-using System.ComponentModel.DataAnnotations;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 namespace OsBonsEspetos.Models
 {
     public class Produto
-    {
-        public int Id { get; set; }
-        [Required(ErrorMessage = "O nome do produto é obrigatório.")]
-        [StringLength(100)]
-        public string Nome { get; set; }
-        [Range(0.01, 1000.00)]
-        public decimal Preco { get; set; }
-        public string Descricao { get; set; }
-    }
+{
+    public int Id { get; set; }
+    public string Nome { get; set; }
+    public decimal Preco { get; set; }
+    public string? Descricao { get; set; }
+}
+
 }

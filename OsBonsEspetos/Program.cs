@@ -1,16 +1,21 @@
 // OsBonsEspetos/Program.cs
+using OsBonsEspetos.Models; 
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OsBonsEspetos.Data; // Assumindo que você terá uma pasta Data para o DbContext
-
-var builder = WebApplication.CreateBuilder(args);
+using Microsoft.EntityFrameworkCore;
 
 // Adicionar serviços ao contêiner.
-builder.Services.AddControllersWithViews();
+var builder = WebApplication.CreateBuilder(args);
 
-// Configurar a conexão com o banco de dados usando Entity Framework Core
+// 1. Pegar a string de conexão do appsettings.json
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
+// 2. Adicionar o DbContext ao contêiner de serviços
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<AppDbContext>();
+
+// ... adicione outros serviços aqui (controllers, etc.)
 
 var app = builder.Build();
 
