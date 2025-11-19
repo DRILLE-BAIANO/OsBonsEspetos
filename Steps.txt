@@ -1,2 +1,33 @@
 git config --global user.name DRILLE-BAIANO
 git config --global user.email duduzimhard@gmail.com
+
+
+CREATE DATABASE restaurante_admin;
+
+USE restaurante_admin;
+
+-- Tabela para armazenar os produtos disponíveis
+CREATE TABLE Produtos (
+    Id INT PRIMARY KEY AUTO_INCREMENT,
+    Nome VARCHAR(255) NOT NULL,
+    Preco DECIMAL(10, 2) NOT NULL,
+    Descricao TEXT
+);
+
+-- Tabela para representar um carrinho de compras
+-- Cada carrinho pode, opcionalmente, ser associado a um usuário
+CREATE TABLE Carrinhos (
+    Id INT PRIMARY KEY AUTO_INCREMENT,
+    UsuarioId INT, -- Chave estrangeira para uma futura tabela de Usuários
+    DataCriacao DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabela de associação para ligar produtos a um carrinho específico
+CREATE TABLE ItensCarrinho (
+    Id INT PRIMARY KEY AUTO_INCREMENT,
+    CarrinhoId INT NOT NULL,
+    ProdutoId INT NOT NULL,
+    Quantidade INT NOT NULL DEFAULT 1,
+    FOREIGN KEY (CarrinhoId) REFERENCES Carrinhos(Id),
+    FOREIGN KEY (ProdutoId) REFERENCES Produtos(Id)
+);
