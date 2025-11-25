@@ -2,37 +2,150 @@
 
 @{
     ViewData["Title"] = "Produtos - Carrinho";
-    Layout = "_Layout";
+    Layout = null;
 }
+<!DOCTYPE html>
+<html lang="pt-br">
 
-<h1>Carrinho de Produtos</h1>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho </title>
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">Adicionar Novo Produto</a>
-</p>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/site.css">
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Nome</th>
-            <th>Preço</th>
-            <th>Descrição</th>
-            <th>Ações</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Nome</td>
-                <td>@item.Preco.ToString("C")</td>
-                <td>@item.Descricao</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Editar</a>
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Detalhes</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Deletar</a>
-                </td>
-            </tr>
+    <style>
+        body {
+            background: #fff;
+            margin: 0;
+            font-family: Arial, sans-serif;
         }
-    </tbody>
-</table>
+
+        /* Header laranja igual a home */
+        .header-top {
+            background: #f5700e;
+            padding: 25px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            font-size: 32px;
+            font-weight: 900;
+            color: white;
+        }
+
+        .cart-icon {
+            background: #243447;
+            padding: 10px 18px;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .main-section {
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .main-title {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .cart-table {
+            width: 100%;
+            margin-top: 40px;
+        }
+
+        .cart-table th {
+            font-size: 22px;
+            font-weight: 700;
+            padding-bottom: 20px;
+        }
+
+        .cart-row {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-add {
+            background: #0d6efd;
+            border: none;
+            padding: 12px 18px;
+            color: white;
+            border-radius: 10px;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        footer {
+            margin-top: 60px;
+            padding: 20px;
+            text-align: center;
+            background: #f9f9f9;
+            color: #444;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER IGUAL A HOME -->
+    <div class="header-top">
+        <a asp-controller="Home" asp-action="Index"
+            style="text-decoration: none; color: white; font-size: 32px; font-weight: bold;">
+            𝗢𝘀 𝗕𝗼𝗻𝘀 𝗘𝘀𝗽𝗲𝘁𝗼𝘀
+        </a>
+
+
+    </div>
+
+    <!-- CONTEÚDO DO CARRINHO -->
+    <div class="main-section">
+
+        <h1 class="main-title">Carrinho de Produtos</h1>
+
+        <a asp-action="Create" class="btn-add">Adicionar Novo Produto</a>
+
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Preço</th>
+                    <th>Descrição</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="cart-row">
+                        <td>@item.Nome</td>
+                        <td>R$ @item.Preco.ToString("F2")</td>
+                        <td>@item.Descricao</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Editar</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Excluir</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+    <footer>
+        © 2025 - Os Bons Espetos
+    </footer>
+
+</body>
+
+</html>

@@ -8,15 +8,15 @@
     decimal totalPedido = Model.Sum(item => item.Quantidade * item.Produto.Preco);
 }
 
-<div class="container mt-5">
+<div class="container mt-5 cart-container">
     <div class="text-center mb-4">
-        <h1 style="font-weight: 700; color: #333;">Meu Carrinho</h1>
-        <p class="lead">Confira os itens do seu pedido e finalize a compra.</p>
+        <h1 class="cart-title" style="font-weight: 700; color: #333;">Meu Carrinho</h1>
+        <p class="lead cart-description">Confira os itens do seu pedido e finalize a compra.</p>
     </div>
 
     @if (Model.Any())
     {
-        <table class="table table-hover align-middle">
+        <table class="table table-hover align-middle cart-table">
             <thead class="table-light">
                 <tr>
                     <th scope="col">Produto</th>
@@ -33,7 +33,7 @@
                         <td>
                             <div class="d-flex align-items-center">
                                 <!-- Assumindo que você tem uma imagem para o produto -->
-                                <!-- <img src="@item.Produto.ImagemUrl" class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover; margin-right: 15px;"> -->
+                                <!-- <img src="@item.Produto.ImagemUrl" class="img-fluid rounded cart-product-image" style="width: 60px; height: 60px; object-fit: cover; margin-right: 15px;"> -->
                                 <span style="font-weight: 600;">@item.Produto.Nome</span>
                             </div>
                         </td>
@@ -41,7 +41,7 @@
                         <td class="text-end">@item.Produto.Preco.ToString("C")</td>
                         <td class="text-end">@((item.Quantidade * item.Produto.Preco).ToString("C"))</td>
                         <td class="text-end">
-                            <a href="#" class="btn btn-sm btn-outline-danger">Remover</a>
+                            <a href="#" class="btn btn-sm btn-outline-danger cart-remove-button">Remover</a>
                         </td>
                     </tr>
                 }
@@ -56,7 +56,7 @@
         </table>
 
         <div class="text-center mt-4">
-            <a href="#" class="btn btn-lg" style="background-color: #212529; color: white; padding: 12px 30px;">Finalizar Pedido</a>
+            <a href="#" class="btn btn-lg cart-checkout-button" style="background-color: #212529; color: white; padding: 12px 30px;">Finalizar Pedido</a>
         </div>
     }
     else

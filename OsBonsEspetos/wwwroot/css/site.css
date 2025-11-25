@@ -26,6 +26,89 @@ body {
   text-align: end;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+.form-floating > .form-control:focus::placeholder {
   text-align: start;
+}
+
+/* Cart Styling */
+
+.cart-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #f8f9fa;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
+}
+
+.cart-title {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 2.5rem;
+  color: #212529;
+  margin-bottom: 0.25rem;
+}
+
+.cart-description {
+  font-size: 1.25rem;
+  color: #6c757d;
+  margin-bottom: 2rem;
+}
+
+.cart-table {
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+.cart-table thead {
+  background-color: #e9ecef;
+}
+
+.cart-table th,
+.cart-table td {
+  padding: 1rem 1.25rem;
+  vertical-align: middle !important;
+}
+
+.cart-table tbody tr:hover {
+  background-color: #f1f3f5;
+  transition: background-color 0.3s ease;
+}
+
+.cart-remove-button {
+  color: #dc3545;
+  border-color: #dc3545;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.cart-remove-button:hover {
+  background-color: #dc3545;
+  color: white;
+  text-decoration: none;
+}
+
+.cart-checkout-button {
+  background-color: #212529 !important;
+  color: white !important;
+  padding: 14px 36px !important;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: background-color 0.3s ease;
+}
+
+.cart-checkout-button:hover {
+  background-color: #343a40 !important;
+  color: white !important;
+  text-decoration: none;
+}
+
+.cart-product-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  margin-right: 15px;
+  border-radius: 0.375rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.1);
 }
