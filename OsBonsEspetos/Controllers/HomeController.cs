@@ -1,23 +1,46 @@
+// =================================================================
+// Usings (Importações) - Adicionamos as que faltavam
+// =================================================================
 using System.Diagnostics;
+using System.Threading.Tasks; // Necessário para programação assíncrona
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore; // Necessário para usar ToListAsync()
+using OsBonsEspetos.Data;       // Necessário para usar o AppDbContext
 using OsBonsEspetos.Models;
 
 namespace OsBonsEspetos.Controllers;
 
 public class HomeController : Controller
 {
+    // =================================================================
+    // Injeção de Dependência
+    // =================================================================
     private readonly ILogger<HomeController> _logger;
+    private readonly AppDbContext _context; // Variável para guardar o acesso ao banco
 
-    public HomeController(ILogger<HomeController> logger)
+    // O construtor agora recebe o AppDbContext além do ILogger
+    public HomeController(ILogger<HomeController> logger, AppDbContext context)
     {
         _logger = logger;
+        _context = context; // O sistema entrega o acesso ao banco, e nós o guardamos
     }
 
-    public IActionResult Index()
+    // =================================================================
+    // Action 'Index' - Corrigida
+    // =================================================================
+    public async Task<IActionResult> Index()
     {
-        return View();
+        // 1. Busca a lista de produtos no banco de dados de forma assíncrona
+        var produtos = await _context.Produtos.ToListAsync();
+        
+        // 2. Envia a lista de produtos para a View. 
+        //    Agora, a variável 'Model' na sua View não será mais nula.
+        return View(produtos);
     }
 
+    // =================================================================
+    // Outras Actions (não precisam de alteração)
+    // =================================================================
     public IActionResult Privacy()
     {
         return View();

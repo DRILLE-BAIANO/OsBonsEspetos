@@ -1,7 +1,7 @@
 ﻿@{
+    ViewData["Title"] = "Produtos - Carrinho";
     Layout = null;
 }
-
 
 <!doctype html>
 <html lang="en">
@@ -13,7 +13,9 @@
 
   <style>
     /* Reset and base */
-    *, *::before, *::after {
+    *,
+    *::before,
+    *::after {
       box-sizing: border-box;
     }
 
@@ -121,11 +123,12 @@
       background-color: #374151;
     }
 
-    /* Responsive nav toggler hidden now, as mobile nav replaced with stacked layout */
-    media (max-width: 768px) {
+    /* CORREÇÃO: Media query escapada com @@ */
+    @@media (max-width: 768px) {
       .nav-links {
         display: none;
       }
+
       .header-cta {
         display: none;
       }
@@ -261,6 +264,45 @@
       width: 16px;
       height: 16px;
       fill: currentColor;
+    }
+
+    /* Add to Cart Button */
+    .add-to-cart-btn {
+      background-color: #f97316;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+    }
+
+    .add-to-cart-btn:hover,
+    .add-to-cart-btn:focus {
+      background-color: #ea580c;
+    }
+
+    /* Cart notification */
+    .cart-notification {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #10b981;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 0.75rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      display: none;
+      z-index: 1000;
+      font-weight: 600;
     }
 
     /* News Section */
@@ -504,17 +546,17 @@
       background-color: #374151;
     }
 
-    /* Responsive for booking form */
-    media (max-width: 600px) {
+    /* CORREÇÃO: Media query escapada com @@ */
+    @@media (max-width: 600px) {
       form.booking-form {
         grid-template-columns: 1fr;
       }
+
       form.booking-form button[type="submit"] {
         grid-column: 1 / 2;
         justify-self: stretch;
       }
     }
-
   </style>
   <!-- Link Google Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -526,21 +568,23 @@
   <header>
     <div class="container">
       <nav aria-label="Primary Navigation">
-        <a asp-action="Index" class="logo" style="font-weight: 900;">𝗢𝘀 𝗕𝗼𝗻𝘀 𝗘𝘀𝗽𝗲𝘁𝗼𝘀</a>
+        <a href="/" class="logo" style="font-weight: 900;">𝗢𝘀 𝗕𝗼𝗻𝘀 𝗘𝘀𝗽𝗲𝘁𝗼𝘀</a>
         <div class="nav-links" role="menubar" aria-label="Primary">
         </div>
         <nav>
-          <button class="header-cta" aria-haspopup="dialog" aria-controls="booking-modal" aria-expanded="false" id="openBooking">
-            <span class="material-icons" aria-hidden="true" style="font-size: 20px; line-height:1; vertical-align: middle;">shopping_cart</span>
+          <button class="header-cta" aria-haspopup="dialog" aria-controls="booking-modal" aria-expanded="false"
+            id="openBooking">
+            <span class="material-icons" aria-hidden="true"
+              style="font-size: 20px; line-height:1; vertical-align: middle;">shopping_cart</span>
           </button>
         </nav>
         <script>
           // Link button click to desired URL without altering styles
-          document.getElementById('openBooking').addEventListener('click', function() {
+          document.getElementById('openBooking').addEventListener('click', function () {
             window.location.href = '/Produtos';
           });
         </script>
-      
+
 
 
     </div>
@@ -551,7 +595,9 @@
     <section class="hero" aria-label="Welcome to Os Bons Espetos">
       <h1>Os Bons Espetos</h1>
       <p>Descubra nosso delicioso menu, para uma experiência gastronômica inesquecível.</p>
-      <button type="button" onclick="document.getElementById('booking-modal').classList.add('active'); document.getElementById('openBooking').setAttribute('aria-expanded', 'true');">Finalize seu pedido aqui</button>
+      <button type="button"
+        onclick="document.getElementById('booking-modal').classList.add('active'); document.getElementById('openBooking').setAttribute('aria-expanded', 'true');">Finalize
+        seu pedido aqui</button>
     </section>
 
     <!-- Menu Section -->
@@ -566,14 +612,34 @@
               <p class="price"><span>$12.50</span></p>
               <div class="reviews" aria-label="Rating: 4.3 out of 5 stars, 102 Reviews">
                 <div class="stars" aria-hidden="true">
-                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z"/></svg>
-                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z"/></svg>
-                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z"/></svg>
-                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z"/></svg>
-                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z" fill="#e0e0e0"/></svg>
+                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true">
+                    <path
+                      d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z" />
+                  </svg>
+                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true">
+                    <path
+                      d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z" />
+                  </svg>
+                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true">
+                    <path
+                      d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z" />
+                  </svg>
+                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true">
+                    <path
+                      d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z" />
+                  </svg>
+                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true">
+                    <path
+                      d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z"
+                      fill="#e0e0e0" />
+                  </svg>
                 </div>
                 <span>102 Reviews</span>
               </div>
+              <button class="add-to-cart-btn" data-product="Morning Fresh" data-price="12.50">
+                <span class="material-icons" style="font-size: 18px;">add_shopping_cart</span>
+                Adicionar ao Carrinho
+              </button>
             </div>
           </article>
 
@@ -584,14 +650,36 @@
               <p class="price"><span>$24.50</span></p>
               <div class="reviews" aria-label="Rating: 3 out of 5 stars, 50 Reviews">
                 <div class="stars" aria-hidden="true">
-                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z"/></svg>
-                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z"/></svg>
-                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z" fill="#e0e0e0"/></svg>
-                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z" fill="#e0e0e0"/></svg>
-                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z" fill="#e0e0e0"/></svg>
+                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true">
+                    <path
+                      d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z" />
+                  </svg>
+                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true">
+                    <path
+                      d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z" />
+                  </svg>
+                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true">
+                    <path
+                      d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z"
+                      fill="#e0e0e0" />
+                  </svg>
+                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true">
+                    <path
+                      d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z"
+                      fill="#e0e0e0" />
+                  </svg>
+                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true">
+                    <path
+                      d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z"
+                      fill="#e0e0e0" />
+                  </svg>
                 </div>
                 <span>50 Reviews</span>
               </div>
+              <button class="add-to-cart-btn" data-product="Tooplate Soup" data-price="24.50">
+                <span class="material-icons" style="font-size: 18px;">add_shopping_cart</span>
+                Adicionar ao Carrinho
+              </button>
             </div>
           </article>
 
@@ -602,14 +690,36 @@
               <p class="price"><span>$45</span><del>$150</del></p>
               <div class="reviews" aria-label="Rating: 3 out of 5 stars, 86 Reviews">
                 <div class="stars" aria-hidden="true">
-                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z"/></svg>
-                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z"/></svg>
-                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z" fill="#e0e0e0"/></svg>
-                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z" fill="#e0e0e0"/></svg>
-                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z" fill="#e0e0e0"/></svg>
+                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true">
+                    <path
+                      d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z" />
+                  </svg>
+                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true">
+                    <path
+                      d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z" />
+                  </svg>
+                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true">
+                    <path
+                      d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z"
+                      fill="#e0e0e0" />
+                  </svg>
+                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true">
+                    <path
+                      d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z"
+                      fill="#e0e0e0" />
+                  </svg>
+                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true">
+                    <path
+                      d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z"
+                      fill="#e0e0e0" />
+                  </svg>
                 </div>
                 <span>86 Reviews</span>
               </div>
+              <button class="add-to-cart-btn" data-product="Premium Steak" data-price="45.00">
+                <span class="material-icons" style="font-size: 18px;">add_shopping_cart</span>
+                Adicionar ao Carrinho
+              </button>
             </div>
           </article>
 
@@ -620,14 +730,36 @@
               <p class="price"><span>$86</span><del>$124</del></p>
               <div class="reviews" aria-label="Rating: 3 out of 5 stars, 44 Reviews">
                 <div class="stars" aria-hidden="true">
-                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z"/></svg>
-                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z"/></svg>
-                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z" fill="#e0e0e0"/></svg>
-                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z" fill="#e0e0e0"/></svg>
-                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z" fill="#e0e0e0"/></svg>
+                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true">
+                    <path
+                      d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z" />
+                  </svg>
+                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true">
+                    <path
+                      d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z" />
+                  </svg>
+                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true">
+                    <path
+                      d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z"
+                      fill="#e0e0e0" />
+                  </svg>
+                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true">
+                    <path
+                      d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z"
+                      fill="#e0e0e0" />
+                  </svg>
+                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true">
+                    <path
+                      d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z"
+                      fill="#e0e0e0" />
+                  </svg>
                 </div>
                 <span>44 Reviews</span>
               </div>
+              <button class="add-to-cart-btn" data-product="Seafood Set" data-price="86.00">
+                <span class="material-icons" style="font-size: 18px;">add_shopping_cart</span>
+                Adicionar ao Carrinho
+              </button>
             </div>
           </article>
 
@@ -638,14 +770,34 @@
               <p class="price"><span>$20.50</span></p>
               <div class="reviews" aria-label="Rating: 4.3 out of 5 stars, 102 Reviews">
                 <div class="stars" aria-hidden="true">
-                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z"/></svg>
-                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z"/></svg>
-                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z"/></svg>
-                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z"/></svg>
-                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z" fill="#e0e0e0"/></svg>
+                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true">
+                    <path
+                      d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z" />
+                  </svg>
+                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true">
+                    <path
+                      d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z" />
+                  </svg>
+                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true">
+                    <path
+                      d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z" />
+                  </svg>
+                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true">
+                    <path
+                      d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z" />
+                  </svg>
+                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true">
+                    <path
+                      d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z"
+                      fill="#e0e0e0" />
+                  </svg>
                 </div>
                 <span>102 Reviews</span>
               </div>
+              <button class="add-to-cart-btn" data-product="Burger Set" data-price="20.50">
+                <span class="material-icons" style="font-size: 18px;">add_shopping_cart</span>
+                Adicionar ao Carrinho
+              </button>
             </div>
           </article>
 
@@ -656,14 +808,36 @@
               <p class="price"><span>$34.20</span></p>
               <div class="reviews" aria-label="Rating: 3 out of 5 stars, 64 Reviews">
                 <div class="stars" aria-hidden="true">
-                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z"/></svg>
-                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z"/></svg>
-                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z" fill="#e0e0e0"/></svg>
-                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z" fill="#e0e0e0"/></svg>
-                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z" fill="#e0e0e0"/></svg>
+                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true">
+                    <path
+                      d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z" />
+                  </svg>
+                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true">
+                    <path
+                      d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z" />
+                  </svg>
+                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true">
+                    <path
+                      d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z"
+                      fill="#e0e0e0" />
+                  </svg>
+                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true">
+                    <path
+                      d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z"
+                      fill="#e0e0e0" />
+                  </svg>
+                  <svg class="star" viewBox="0 0 20 20" aria-hidden="true">
+                    <path
+                      d="M10 1.5l2.755 5.585 6.165.894-4.457 4.345 1.052 6.128L10 15.763l-5.515 2.899 1.051-6.128-4.457-4.345 6.165-.894L10 1.5z"
+                      fill="#e0e0e0" />
+                  </svg>
                 </div>
                 <span>64 Reviews</span>
               </div>
+              <button class="add-to-cart-btn" data-product="Healthy Soup" data-price="34.20">
+                <span class="material-icons" style="font-size: 18px;">add_shopping_cart</span>
+                Adicionar ao Carrinho
+              </button>
             </div>
           </article>
         </div>
@@ -676,7 +850,8 @@
         <h2 id="news-title">Mais Pedidos</h2>
         <div class="news-grid" role="list">
           <article class="news-card" role="listitem" tabindex="0">
-            <img src="images/news/pablo-merchan-montes-Orz90t6o0e4-unsplash.jpg" alt="Healthy Lifestyle and happy living tips" />
+            <img src="images/news/pablo-merchan-montes-Orz90t6o0e4-unsplash.jpg"
+              alt="Healthy Lifestyle and happy living tips" />
             <div class="news-content">
               <span class="news-category">Featured</span>
               <h3 class="news-title"><a href="/Produtos">Healthy Lifestyle and happy living tips</a></h3>
@@ -727,7 +902,8 @@
       <div>
         <h3>Local</h3>
         <address>R. Virgílio Manesco, 21 - Conj. Res. Cel. Jose V. Franca II, Barra Bonita - SP, 17345-060</address>
-        <a href="https://maps.app.goo.gl/veXqvEPpqaPnfEF36" class="custom-btn" target="_blank" rel="noopener noreferrer">Localização</a>
+        <a href="https://maps.app.goo.gl/veXqvEPpqaPnfEF36" class="custom-btn" target="_blank"
+          rel="noopener noreferrer">Localização</a>
       </div>
       <div>
         <h3>Funcionamento</h3>
@@ -738,10 +914,12 @@
       <div>
         <h6>Social</h6>
         <nav class="social-icons" aria-label="Social Media Links">
-          <a href="https://www.instagram.com/osbons.espetosbb?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="Instagram">
+          <a href="https://www.instagram.com/osbons.espetosbb?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+            target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="Instagram">
             &#x1F4F7;
           </a>
-          <a href="https://www.youtube.com/embed/zcC2IsMNBdA?si=E3xGF3ctHw_qwWa_" target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="YouTube">
+          <a href="https://www.youtube.com/embed/zcC2IsMNBdA?si=E3xGF3ctHw_qwWa_" target="_blank"
+            rel="noopener noreferrer" class="social-icon-link" aria-label="YouTube">
             &#x25B6;
           </a>
         </nav>
@@ -750,11 +928,13 @@
   </footer>
 
   <!-- Booking Modal -->
-  <div class="modal-overlay" id="booking-modal" role="dialog" aria-modal="true" aria-labelledby="booking-title" aria-hidden="true">
+  <div class="modal-overlay" id="booking-modal" role="dialog" aria-modal="true" aria-labelledby="booking-title"
+    aria-hidden="true">
     <div class="modal-content">
       <div class="modal-header">
         <h3 id="booking-title">Finalize o seu pedido</h3>
-        <button type="button" class="close-button" aria-label="Close reservation form" id="closeBooking">&times;</button>  
+        <button type="button" class="close-button" aria-label="Close reservation form"
+          id="closeBooking">&times;</button>
       </div>
       <form class="booking-form" role="form" action="#" method="post" novalidate>
         <label for="name">Nome </label>
@@ -781,6 +961,11 @@
         <button type="submit">Enviar</button>
       </form>
     </div>
+  </div>
+
+  <!-- Cart Notification -->
+  <div class="cart-notification" id="cartNotification">
+    Produto adicionado ao carrinho!
   </div>
 
   <script>
@@ -811,6 +996,32 @@
       }
     });
 
+    // Add to Cart functionality
+    const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+    const cartNotification = document.getElementById('cartNotification');
+
+    addToCartButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const productName = this.getAttribute('data-product');
+        const productPrice = this.getAttribute('data-price');
+        
+        // Show notification
+        cartNotification.textContent = `${productName} adicionado ao carrinho!`;
+        cartNotification.style.display = 'block';
+        
+        // Hide notification after 3 seconds
+        setTimeout(() => {
+          cartNotification.style.display = 'none';
+        }, 3000);
+        
+        // Here you would typically add the product to a cart array or send to backend
+        console.log(`Added to cart: ${productName} - $${productPrice}`);
+        
+        // You could also update a cart counter in the header
+        // updateCartCounter();
+      });
+    });
+
     // Keyboard shortcut logic preserved
     const keysPressed = {};
     window.addEventListener("keydown", (event) => {
@@ -829,4 +1040,3 @@
 </body>
 
 </html>
-

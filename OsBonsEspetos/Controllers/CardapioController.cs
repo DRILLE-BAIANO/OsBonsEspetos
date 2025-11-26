@@ -6,6 +6,12 @@ using System.Linq;
 // Correção 1: Adicionada a chave de abertura para o namespace
 namespace OsBonsEspetos.Controllers
 { 
+    public async Task<IActionResult> Index()
+{
+    var produtos = await _context.Produtos.ToListAsync(); // <-- CORRIGIDO
+    return View(produtos);
+}
+
     public class CardapioController : Controller
     {
         private readonly AppDbContext _context;

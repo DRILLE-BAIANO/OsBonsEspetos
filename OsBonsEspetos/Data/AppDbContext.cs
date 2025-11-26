@@ -1,22 +1,33 @@
-// 1. PRIMEIRO: Todas as diretivas 'using'
+// =================================================================
+// Usings (Importações)
+// =================================================================
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using OsBonsEspetos.Models;
 
-// 2. DEPOIS: A declaração do namespace
+// =================================================================
+// Namespace
+// =================================================================
 namespace OsBonsEspetos.Data;
 
-// 3. FINALMENTE: A declaração da classe dentro do namespace
+// =================================================================
+// Definição da Classe (ÚNICA E COMPLETA)
+// =================================================================
 public class AppDbContext : IdentityDbContext<ApplicationUser>
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
     }
 
+    // --- DbSets: Mapeamento das suas classes para tabelas do banco ---
+
     public DbSet<Produto> Produtos { get; set; }
+    public DbSet<Categoria> Categorias { get; set; } // A NOVA LINHA, NO LUGAR CERTO
     public DbSet<Carrinho> Carrinhos { get; set; }
     public DbSet<ItemCarrinho> ItensCarrinho { get; set; }
     public DbSet<Reserva> Reservas { get; set; }
-    public DbSet<Cardapio> Cardapio { get; set; }
+    
+    // Nota: Removi o DbSet<Cardapio> pois parece que você não tem um modelo para ele.
+    // Se você tiver um modelo Cardapio.cs, pode adicionar a linha de volta.
+    // public DbSet<Cardapio> Cardapio { get; set; } 
 }
-
