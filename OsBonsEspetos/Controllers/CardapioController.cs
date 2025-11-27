@@ -1,82 +1,65 @@
+// =================================================================
+// Usings (Importações)
+// =================================================================
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore; // Necessário para ToListAsync()
 using OsBonsEspetos.Data;
 using OsBonsEspetos.Models;
-using System.Linq;
+using System.Threading.Tasks; // Necessário para Task<IActionResult>
 
-// Correção 1: Adicionada a chave de abertura para o namespace
-namespace OsBonsEspetos.Controllers
-{ 
-    public async Task<IActionResult> Index()
+namespace OsBonsEspetos.Controllers; // Namespace simplificado
+
+// =================================================================
+// Definição da Classe (ÚNICA E COMPLETA)
+// =================================================================
+public class CardapioController : Controller
 {
-    var produtos = await _context.Produtos.ToListAsync(); // <-- CORRIGIDO
-    return View(produtos);
-}
+    // =================================================================
+    // Injeção de Dependência
+    // =================================================================
+    private readonly AppDbContext _context;
 
-    public class CardapioController : Controller
+    public CardapioController(AppDbContext context)
     {
-        private readonly AppDbContext _context;
+        _context = context; // O sistema entrega o acesso ao banco de dados
+    }
 
-        public CardapioController(AppDbContext context)
+    // =================================================================
+    // Actions (Métodos que respondem a URLs)
+    // =================================================================
+
+    // GET: /Cardapio ou /Cardapio/Index
+    // Este método exibe a lista de todos os produtos (o cardápio).
+    public async Task<IActionResult> Index()
+    {
+        // Busca os produtos no banco de dados, incluindo a informação da Categoria
+        var produtos = await _context.Produtos.Include(p => p.Categoria).ToListAsync();
+        
+        // Envia a lista de produtos para a View correspondente
+        return View(produtos);
+    }
+
+    // GET: /Cardapio/Detalhes/5
+    // Mostra os detalhes de um único produto.
+    public async Task<IActionResult> Detalhes(int? id)
+    {
+        if (id == null)
         {
-            _context = context;
+            return NotFound(); // Retorna erro 404 se nenhum ID for fornecido
         }
 
-        // GET: /Cardapio/Index (equivalente ao list do Node.js)
-        public IActionResult Index()
-        {
-            var cardapioItems = _context.Cardapio.ToList();
-            return View(cardapioItems); // Passa a lista de itens para a View
-        }
-
-        // GET: /Cardapio/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: /Cardapio/Create (equivalente ao create do Node.js)
-        [HttpPost]
-        [ValidateAntiForgeryToken] // Proteção contra ataques CSRF
-        public IActionResult Create([Bind("Nome,Preco,Descricao")] Cardapio cardapio)
-        {
-            if (ModelState.IsValid) // Verifica as validações do modelo
-            {
-                _context.Add(cardapio);
-                _context.SaveChanges(); // Salva no banco de dados
-                return RedirectToAction(nameof(Index)); // Redireciona para a lista
-            }
-            return View(cardapio); // Retorna a View com erros de validação
-        }
-
-        // Correção 2: Adicionado um método GET para a API.
-        // O seu método POST "CreatedAtAction" precisa de um método GET para referenciar.
-        // Este método busca um item do cardápio pelo ID.
-        [HttpGet("api/cardapio/{id}")]
-        public IActionResult GetCardapioApi(int id)
-        {
-            var cardapioItem = _context.Cardapio.Find(id);
-            if (cardapioItem == null)
-            {
-                return NotFound(); // Retorna 404 se não encontrar
-            }
-            return Ok(cardapioItem); // Retorna o item encontrado com status 200 OK
-        }
-
-        // POST: /api/cardapio (para API RESTful)
-        [HttpPost("api/cardapio")]
-        public IActionResult PostCardapioApi([FromBody] Cardapio cardapio)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState); // Retorna erros de validação
-            }
-            _context.Cardapio.Add(cardapio);
-            _context.SaveChanges();
+        var produto = await _context.Produtos
+            .Include(p => p.Categoria) // Inclui a categoria do produto
+            .FirstOrDefaultAsync(m => m.Id == id);
             
-            // A linha abaixo cria uma URL para o novo recurso criado (padrão REST)
-            // e precisa do método GetCardapioApi que adicionei acima.
-            return CreatedAtAction(nameof(GetCardapioApi), new { id = cardapio.Id }, cardapio); // Retorna 201 Created
+        if (produto == null)
+        {
+            return NotFound(); // Retorna erro 404 se o produto não for encontrado
         }
-    } 
-    // Correção 3: Adicionada a chave de fechamento para o namespace
+
+        return View(produto); // Envia o produto encontrado para a View "Detalhes"
+    }
+    
+    // NOTA: Removi os métodos Create e os de API para simplificar e focar na funcionalidade principal.
+    // Podemos adicioná-los de volta depois, se você precisar de uma área para gerenciar produtos.
 }

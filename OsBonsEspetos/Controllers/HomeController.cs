@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore; // Necessário para usar ToListAsync()
 using OsBonsEspetos.Data;       // Necessário para usar o AppDbContext
 using OsBonsEspetos.Models;
+using OsBonsEspetos.ViewModels; 
 
 namespace OsBonsEspetos.Controllers;
 
