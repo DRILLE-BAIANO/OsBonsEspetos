@@ -53,7 +53,6 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     // Em desenvolvimento, usa o endpoint de migrações.
-    // Esta linha agora funcionará porque o pacote foi instalado.
     app.UseMigrationsEndPoint();
 }
 else
@@ -62,11 +61,13 @@ else
     app.UseHsts();
 }
 
-// Middlewares
+// Middlewares (executados em cada requisição, na ordem)
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-app.UseSession();
+
+app.UseSession(); // Habilita o middleware de sessão. ESSENCIAL para o carrinho.
+
 app.UseAuthentication();
 app.UseAuthorization();
 

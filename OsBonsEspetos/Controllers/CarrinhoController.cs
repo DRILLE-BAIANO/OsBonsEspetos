@@ -1,119 +1,98 @@
-// =================================================================
-// Usings (Importações)
-// =================================================================
+// Controllers/CarrinhoController.cs
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using OsBonsEspetos.Data;
+using Microsoft.AspNetCore.Http;
 using OsBonsEspetos.Models;
 using OsBonsEspetos.ViewModels;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
 
-namespace OsBonsEspetos.Controllers;
-
-// =================================================================
-// Definição da Classe (ÚNICA E COMPLETA)
-// =================================================================
-public class CarrinhoController : Controller
+namespace OsBonsEspetos.Controllers
 {
-    private readonly AppDbContext _context;
-
-    public CarrinhoController(AppDbContext context)
+    public class CarrinhoController : Controller
     {
-        _context = context;
-    }
+        private const string SessionKey = "Carrinho";
 
-    // --- Actions (Métodos que respondem a URLs) ---
-
-    // GET: /Carrinho
-    public IActionResult Index()
-    {
-        var carrinho = GetCarrinhoDaSessao();
-        return View(carrinho);
-    }
-
-    // POST: /Carrinho/Adicionar/5
-    [HttpPost]
-    public async Task<IActionResult> Adicionar(int id)
-    {
-        var carrinho = GetCarrinhoDaSessao();
-        var itemNoCarrinho = carrinho.Itens.FirstOrDefault(i => i.ProdutoId == id);
-
-        if (itemNoCarrinho != null)
+        public IActionResult Index()
         {
-            itemNoCarrinho.Quantidade++;
-        }
-        else
-        {
-            var produtoParaAdicionar = await _context.Produtos.FindAsync(id);
-            if (produtoParaAdicionar != null)
+            var carrinho = ObterCarrinhoDaSession();
+            var viewModel = new CarrinhoViewModel
             {
-                carrinho.Itens.Add(new ItemCarrinho
-                {
-                    ProdutoId = produtoParaAdicionar.Id,
-                    Produto = produtoParaAdicionar,
-                    Quantidade = 1,
-                    PrecoUnitario = produtoParaAdicionar.Preco
-                });
-            }
+                Itens = carrinho
+            };
+
+            return View(viewModel);
         }
 
-        SalvarCarrinhoNaSessao(carrinho);
-        return Ok(new { sucesso = true, totalItens = carrinho.Itens.Sum(i => i.Quantidade) });
-    }
-
-    // =================================================================
-    // MÉTODO REMOVER CORRIGIDO E NO LUGAR CERTO
-    // =================================================================
-    // POST: /Carrinho/Remover/5
-    [HttpPost]
-    public IActionResult Remover(int id)
-    {
-        var carrinho = GetCarrinhoDaSessao();
-        var itemParaRemover = carrinho.Itens.FirstOrDefault(i => i.ProdutoId == id);
-
-        if (itemParaRemover != null)
+        [HttpPost]
+        public IActionResult Adicionar(int produtoId, string nome, decimal preco)
         {
-            if (itemParaRemover.Quantidade > 1)
+            var carrinho = ObterCarrinhoDaSession();
+            
+            var itemExistente = carrinho.FirstOrDefault(item => item.ProdutoId == produtoId);
+            
+            if (itemExistente != null)
             {
-                // Se houver mais de um, apenas diminui a quantidade
-                itemParaRemover.Quantidade--;
+                itemExistente.Quantidade++;
             }
             else
             {
-                // Se houver apenas um, remove o item da lista
-                carrinho.Itens.Remove(itemParaRemover);
+                carrinho.Add(new ItemCarrinho
+                {
+                    ProdutoId = produtoId,
+                    Produto = new Produto { Id = produtoId, Nome = nome, Preco = preco },
+                    Quantidade = 1,
+                    PrecoUnitario = preco
+                });
             }
+
+            SalvarCarrinhoNaSession(carrinho);
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult Remover(int id)
+        {
+            var carrinho = ObterCarrinhoDaSession();
+            var item = carrinho.FirstOrDefault(item => item.ProdutoId == id);
             
-            SalvarCarrinhoNaSessao(carrinho);
+            if (item != null)
+            {
+                carrinho.Remove(item);
+                SalvarCarrinhoNaSession(carrinho);
+            }
+
+            return RedirectToAction("Index");
         }
 
-        // Redireciona o usuário de volta para a página do carrinho
-        return RedirectToAction(nameof(Index));
-    }
-
-    // --- Métodos Auxiliares (Privados) ---
-
-    private CarrinhoViewModel GetCarrinhoDaSessao()
-    {
-        CarrinhoViewModel carrinho;
-        string carrinhoJson = HttpContext.Session.GetString("Carrinho");
-
-        if (string.IsNullOrEmpty(carrinhoJson))
+        [HttpPost]
+        public IActionResult AtualizarQuantidade(int produtoId, int quantidade)
         {
-            carrinho = new CarrinhoViewModel();
-        }
-        else
-        {
-            carrinho = JsonSerializer.Deserialize<CarrinhoViewModel>(carrinhoJson);
-        }
-        return carrinho;
-    }
+            var carrinho = ObterCarrinhoDaSession();
+            var item = carrinho.FirstOrDefault(item => item.ProdutoId == produtoId);
+            
+            if (item != null && quantidade > 0)
+            {
+                item.Quantidade = quantidade;
+                SalvarCarrinhoNaSession(carrinho);
+            }
 
-    private void SalvarCarrinhoNaSessao(CarrinhoViewModel carrinho)
-    {
-        string carrinhoJson = JsonSerializer.Serialize(carrinho);
-        HttpContext.Session.SetString("Carrinho", carrinhoJson);
+            return RedirectToAction("Index");
+        }
+
+        private List<ItemCarrinho> ObterCarrinhoDaSession()
+        {
+            var carrinhoJson = HttpContext.Session.GetString(SessionKey);
+            if (string.IsNullOrEmpty(carrinhoJson))
+                return new List<ItemCarrinho>();
+
+            return JsonSerializer.Deserialize<List<ItemCarrinho>>(carrinhoJson) ?? new List<ItemCarrinho>();
+        }
+
+        private void SalvarCarrinhoNaSession(List<ItemCarrinho> carrinho)
+        {
+            var carrinhoJson = JsonSerializer.Serialize(carrinho);
+            HttpContext.Session.SetString(SessionKey, carrinhoJson);
+        }
     }
-} // <-- FIM DA CLASSE CARRINHOCONTROLLER
+}

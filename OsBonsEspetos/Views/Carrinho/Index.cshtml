@@ -12,297 +12,158 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewData["Title"] - Os Bons Espetos</title>
     <style>
+        /* Seus estilos CSS aqui - mantenha os mesmos estilos do carrinho */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
         }
         
         body {
-            background-color: #f8f8f8;
-            color: #333;
+            background-color: #ffffff;
+            color: #333333;
             line-height: 1.6;
         }
         
-        /* Header */
-        header {
-            background-color:#f97316;
+        .header {
+            background-color: #1a1a1a;
             color: white;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-        }
-        
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-        
-        nav ul li {
-            margin-left: 1.5rem;
-        }
-        
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: opacity 0.3s;
-        }
-        
-        nav ul li a:hover {
-            opacity: 0.8;
-        }
-        
-        /* Banner */
-        .banner {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://img.freepik.com/fotos-premium/espetos-de-carne-de-frango-e-linguica-de-porco-sobre-tabua-de-madeira-com-farofa-de-limao-e-pimenta_92534-2698.jpg');
-            background-size: cover;
-            background-position: center;
-            height: 200px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            padding: 2rem 0;
             text-align: center;
-            color: white;
-            padding: 0 2rem;
+            border-bottom: 3px solid #d4af37;
         }
         
-        .banner h1 {
+        .header h1 {
             font-size: 2.5rem;
-            margin-bottom: 1rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
         
-        /* Main Content */
         .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1.5rem;
+            max-width: 1000px;
+            margin: 3rem auto;
+            padding: 0 2rem;
         }
         
         .page-header {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
         }
         
-        .page-header h1 {
-            font-weight: 700;
-            color: #333;
-            font-size: 2.2rem;
-            margin-bottom: 0.5rem;
+        .page-header h2 {
+            font-size: 2rem;
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+            font-weight: 400;
         }
         
-        .page-header .lead {
-            font-size: 1.2rem;
-            color: #666;
-        }
-        
-        /* Cart Section */
         .cart-section {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            padding: 2rem;
+            background-color: #fafafa;
+            border: 1px solid #e0e0e0;
+            padding: 2.5rem;
             margin-bottom: 2rem;
         }
         
-        /* Table Styles */
         .cart-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
         
         .cart-table thead {
-            background-color: #f8f9fa;
+            border-bottom: 2px solid #1a1a1a;
         }
         
         .cart-table th {
-            padding: 1rem;
+            padding: 1.5rem 1rem;
             text-align: left;
-            font-weight: 600;
-            border-bottom: 2px solid #dee2e6;
-        }
-        
-        .cart-table th.text-center {
-            text-align: center;
-        }
-        
-        .cart-table th.text-end {
-            text-align: right;
+            font-weight: 500;
+            color: #1a1a1a;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .cart-table td {
-            padding: 1rem;
-            border-bottom: 1px solid #dee2e6;
+            padding: 1.5rem 1rem;
+            border-bottom: 1px solid #e0e0e0;
             vertical-align: middle;
+            color: #444;
         }
         
-        .cart-table td.text-center {
-            text-align: center;
-        }
-        
-        .cart-table td.text-end {
-            text-align: right;
-        }
-        
-        .cart-table tfoot td {
-            font-weight: bold;
-            font-size: 1.2rem;
-            border-top: 2px solid #dee2e6;
-            padding-top: 1.5rem;
-        }
-        
-        /* Button Styles */
         .btn {
             display: inline-block;
-            padding: 0.6rem 1.2rem;
-            border-radius: 4px;
+            padding: 0.8rem 1.8rem;
+            border-radius: 0;
             text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s;
+            font-weight: 500;
+            transition: all 0.3s ease;
             border: none;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .btn-primary {
-            background-color: #f97316;
+            background-color: #1a1a1a;
             color: white;
-        }
-        
-        .btn-primary:hover {
-            background-color: #A52A2A;
-        }
-        
-        .btn-dark {
-            background-color: #212529;
-            color: white;
-        }
-        
-        .btn-dark:hover {
-            background-color: #343a40;
+            border: 1px solid #1a1a1a;
         }
         
         .btn-danger {
-            background-color: #dc3545;
-            color: white;
+            background-color: transparent;
+            color: #d32f2f;
+            border: 1px solid #d32f2f;
         }
         
         .btn-danger:hover {
-            background-color: #c82333;
+            background-color: #d32f2f;
+            color: white;
         }
         
         .btn-sm {
-            padding: 0.4rem 0.8rem;
-            font-size: 0.8rem;
-        }
-        
-        /* Empty Cart */
-        .empty-cart {
-            text-align: center;
-            padding: 3rem 1rem;
+            padding: 0.6rem 1.2rem;
+            font-size: 0.85rem;
         }
         
         .alert-info {
-            background-color: #d1ecf1;
-            color: #0c5460;
-            padding: 1rem;
-            border-radius: 4px;
-            margin-bottom: 1rem;
+            background-color: #f8f8f8;
+            color: #444;
+            padding: 2rem;
+            border: 1px solid #e0e0e0;
+            margin-bottom: 2rem;
+            text-align: center;
         }
         
-        /* Menu Categories */
-        .menu-categories {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-        
-        .category {
-            background-color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 4px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .category:hover {
-            background-color: #f97316;
-            color: white;
-        }
-        
-        /* Footer */
         footer {
-            background-color: #333;
+            background-color: #1a1a1a;
             color: white;
             text-align: center;
-            padding: 2rem 1rem;
-            margin-top: 3rem;
+            padding: 2.5rem 1rem;
+            margin-top: 4rem;
         }
         
-        footer p {
-            margin-bottom: 0.5rem;
-        }
-        
-        /* Responsive - Media Query Corrigida */
         @@media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                padding: 1rem;
-            }
-            
-            nav ul {
-                margin-top: 1rem;
-            }
-            
-            nav ul li {
-                margin: 0 0.5rem;
-            }
-            
-            .banner h1 {
-                font-size: 2rem;
-            }
-            
             .cart-table {
                 display: block;
                 overflow-x: auto;
-            }
-            
-            .cart-table th,
-            .cart-table td {
-                white-space: nowrap;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="logo">Os Bons Espetos</div>
+    <header class="header">
+        <h1>Os Bons Espetos</h1>
     </header>
 
-    <!-- Banner -->
-    <section class="banner">
-        <h1>Os Bons Espetos</h1>
-    </section>
-
-    <!-- Main Content -->
     <div class="container">
         <div class="page-header">
-            <h1>@ViewData["Title"]</h1>
-            <p class="lead">Confira os itens do seu pedido e finalize a compra.</p>
+            <h2>@ViewData["Title"]</h2>
+            <p>Confira os itens do seu pedido e finalize a compra.</p>
         </div>
 
         @if (Model != null && Model.Itens.Any())
@@ -336,35 +197,32 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="3" class="text-end fw-bold">Total</td>
-                            <td class="text-end fw-bold">@Model.TotalCarrinho.ToString("C")</td>
+                            <td colspan="3" class="text-end"><strong>Total do Pedido</strong></td>
+                            <td class="text-end"><strong>@Model.TotalCarrinho.ToString("C")</strong></td>
                             <td></td>
                         </tr>
                     </tfoot>
                 </table>
 
                 <div class="text-center">
-                    <a href="#" class="btn btn-dark">Finalizar Pedido</a>
+                    <a href="#" class="btn btn-primary">Finalizar Pedido</a>
                 </div>
             </div>
         }
         else
         {
             <div class="alert-info">
-                <p class="mb-0">Seu carrinho está vazio.</p>
+                <p>Seu carrinho está vazio.</p>
             </div>
             <div class="text-center">
                 <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Ver o Menu</a>
             </div>
         }
-
-        <!-- Menu Categories -->
-
     </div>
 
-    <!-- Footer -->
     <footer>
-        <p>© 2025 - OsBonsEspetos - Privacy</p>
+        <p>© 2025 - OsBonsEspetos</p>
+        <p>Privacy</p>
         <p>localhost:5079</p>
     </footer>
 </body>

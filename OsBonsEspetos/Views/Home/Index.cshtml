@@ -1,15 +1,15 @@
-﻿@{
-  ViewData["Title"] = "Produtos - Carrinho";
-  Layout = null;
+﻿@model OsBonsEspetos.ViewModels.HomeViewModel
+@{
+    ViewData["Title"] = "Cardápio - Os Bons Espetos";
+    Layout = null;
 }
 
 <!doctype html>
 <html lang="pt-br">
-
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Os Bons Espetos - Produtos</title>
+  <title>Os Bons Espetos - Cardápio</title>
 
   <style>
     /* Reset and base */
@@ -134,26 +134,6 @@
       margin-right: auto;
       opacity: 0.9;
       line-height: 1.4;
-    }
-
-    .hero button {
-      background-color: #111827;
-      color: #ffffff;
-      padding: 1.2rem 3rem;
-      border: none;
-      border-radius: 0.75rem;
-      font-weight: 700;
-      font-size: 1.25rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
-
-    .hero button:hover,
-    .hero button:focus {
-      background-color: #374151;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
     }
 
     /* Section headers */
@@ -426,7 +406,7 @@
     <div class="container">
       <nav aria-label="Primary Navigation">
         <a href="/" class="logo" style="font-weight: 900;">𝗢𝘀 𝗕𝗼𝗻𝘀 𝗘𝘀𝗽𝗲𝘁𝗼𝘀</a>
-        <a asp-controller="Carrinho" asp-action="Index" class="header-cta">
+        <a href="/Carrinho" class="header-cta">
           <span class="material-icons" aria-hidden="true">shopping_cart</span>
         </a>
       </nav>
@@ -455,119 +435,106 @@
         </div>
 
         <div class="menu-grid" role="list">
-          <!-- Produto 1 -->
-          <article class="menu-card" role="listitem" tabindex="0" data-category="espetos">
-            <img src="/images/espetos/espeto-carne.jpg" alt="Espeto de Carne" />
-            <div class="menu-content">
-              <h3 class="menu-title">Espeto de Carne</h3>
-              <p class="price"><span>R$ 25,90</span></p>
-              <div class="reviews" aria-label="Rating: 4.8 out of 5 stars, 156 Reviews">
-                <div class="stars" aria-hidden="true">
-                  ★★★★★
-                </div>
-                <span>156 Reviews</span>
-              </div>
-              <button class="add-to-cart-btn" data-product="Espeto de Carne" data-price="25.90">
-                <span class="material-icons" style="font-size: 18px;">add_shopping_cart</span>
-                Adicionar ao Carrinho
-              </button>
-            </div>
-          </article>
+          @if (Model != null && Model.Produtos.Any())
+          {
+              @foreach (var produto in Model.Produtos)
+              {
+                  <article class="menu-card" role="listitem" tabindex="0" data-category="@produto.Categoria?.ToLower()">
+                      <img src="@(string.IsNullOrEmpty(produto.ImagemUrl) ? "/images/placeholder.jpg" : produto.ImagemUrl)" alt="@produto.Nome" />
+                      <div class="menu-content">
+                          <h3 class="menu-title">@produto.Nome</h3>
+                          <p class="price"><span>@produto.Preco.ToString("C")</span></p>
+                          <div class="reviews" aria-label="Avaliação do produto">
+                              <div class="stars" aria-hidden="true">
+                                  ★★★★★
+                              </div>
+                              <span>@(new Random().Next(50, 200)) Reviews</span>
+                          </div>
+                          <form asp-controller="Carrinho" asp-action="Adicionar" method="post">
+                              <input type="hidden" name="produtoId" value="@produto.Id" />
+                              <input type="hidden" name="nome" value="@produto.Nome" />
+                              <input type="hidden" name="preco" value="@produto.Preco" />
+                              <button type="submit" class="add-to-cart-btn">
+                                  <span class="material-icons" aria-hidden="true">shopping_cart</span>
+                                  ADICIONAR AO CARRINHO
+                              </button>
+                          </form>
+                      </div>
+                  </article>
+              }
+          }
+          else
+          {
+              <!-- Produtos de exemplo caso não haja dados -->
+              <article class="menu-card" role="listitem" tabindex="0" data-category="espetos">
+                  <img src="/images/espetos/espeto-carne.jpg" alt="Espeto de Carne" />
+                  <div class="menu-content">
+                      <h3 class="menu-title">Espeto de Carne</h3>
+                      <p class="price"><span>R$ 25,90</span></p>
+                      <div class="reviews" aria-label="Rating: 4.8 out of 5 stars, 156 Reviews">
+                          <div class="stars" aria-hidden="true">
+                              ★★★★★
+                          </div>
+                          <span>156 Reviews</span>
+                      </div>
+                      <form asp-controller="Carrinho" asp-action="Adicionar" method="post">
+                          <input type="hidden" name="produtoId" value="1" />
+                          <input type="hidden" name="nome" value="Espeto de Carne" />
+                          <input type="hidden" name="preco" value="25.90" />
+                          <button type="submit" class="add-to-cart-btn">
+                              <span class="material-icons" aria-hidden="true">shopping_cart</span>
+                              ADICIONAR AO CARRINHO
+                          </button>
+                      </form>
+                  </div>
+              </article>
 
-          <!-- Produto 2 -->
-          <article class="menu-card" role="listitem" tabindex="0" data-category="espetos">
-            <img src="/images/espetos/espeto-frango.jpg" alt="Espeto de Frango" />
-            <div class="menu-content">
-              <h3 class="menu-title">Espeto de Frango</h3>
-              <p class="price"><span>R$ 22,50</span></p>
-              <div class="reviews" aria-label="Rating: 4.6 out of 5 stars, 128 Reviews">
-                <div class="stars" aria-hidden="true">
-                  ★★★★☆
-                </div>
-                <span>128 Reviews</span>
-              </div>
-              <button class="add-to-cart-btn" data-product="Espeto de Frango" data-price="22.50">
-                <span class="material-icons" style="font-size: 18px;">add_shopping_cart</span>
-                Adicionar ao Carrinho
-              </button>
-            </div>
-          </article>
+              <article class="menu-card" role="listitem" tabindex="0" data-category="espetos">
+                  <img src="/images/espetos/espeto-frango.jpg" alt="Espeto de Frango" />
+                  <div class="menu-content">
+                      <h3 class="menu-title">Espeto de Frango</h3>
+                      <p class="price"><span>R$ 22,50</span></p>
+                      <div class="reviews" aria-label="Rating: 4.6 out of 5 stars, 128 Reviews">
+                          <div class="stars" aria-hidden="true">
+                              ★★★★☆
+                          </div>
+                          <span>128 Reviews</span>
+                      </div>
+                      <form asp-controller="Carrinho" asp-action="Adicionar" method="post">
+                          <input type="hidden" name="produtoId" value="2" />
+                          <input type="hidden" name="nome" value="Espeto de Frango" />
+                          <input type="hidden" name="preco" value="22.50" />
+                          <button type="submit" class="add-to-cart-btn">
+                              <span class="material-icons" aria-hidden="true">shopping_cart</span>
+                              ADICIONAR AO CARRINHO
+                          </button>
+                      </form>
+                  </div>
+              </article>
 
-          <!-- Produto 3 -->
-          <article class="menu-card" role="listitem" tabindex="0" data-category="bebidas">
-            <img src="/images/bebidas/refrigerante.jpg" alt="Refrigerante" />
-            <div class="menu-content">
-              <h3 class="menu-title">Refrigerante</h3>
-              <p class="price"><span>R$ 8,00</span></p>
-              <div class="reviews" aria-label="Rating: 4.2 out of 5 stars, 89 Reviews">
-                <div class="stars" aria-hidden="true">
-                  ★★★★☆
-                </div>
-                <span>89 Reviews</span>
-              </div>
-              <button class="add-to-cart-btn" data-product="Refrigerante" data-price="8.00">
-                <span class="material-icons" style="font-size: 18px;">add_shopping_cart</span>
-                Adicionar ao Carrinho
-              </button>
-            </div>
-          </article>
-
-          <!-- Produto 4 -->
-          <article class="menu-card" role="listitem" tabindex="0" data-category="acompanhamentos">
-            <img src="/images/acompanhamentos/farofa.jpg" alt="Farofa Caseira" />
-            <div class="menu-content">
-              <h3 class="menu-title">Farofa Caseira</h3>
-              <p class="price"><span>R$ 12,00</span></p>
-              <div class="reviews" aria-label="Rating: 4.7 out of 5 stars, 203 Reviews">
-                <div class="stars" aria-hidden="true">
-                  ★★★★★
-                </div>
-                <span>203 Reviews</span>
-              </div>
-              <button class="add-to-cart-btn" data-product="Farofa Caseira" data-price="12.00">
-                <span class="material-icons" style="font-size: 18px;">add_shopping_cart</span>
-                Adicionar ao Carrinho
-              </button>
-            </div>
-          </article>
-
-          <!-- Produto 5 -->
-          <article class="menu-card" role="listitem" tabindex="0" data-category="sobremesas">
-            <img src="/images/sobremesas/pudim.jpg" alt="Pudim de Leite" />
-            <div class="menu-content">
-              <h3 class="menu-title">Pudim de Leite</h3>
-              <p class="price"><span>R$ 15,00</span></p>
-              <div class="reviews" aria-label="Rating: 4.9 out of 5 stars, 178 Reviews">
-                <div class="stars" aria-hidden="true">
-                  ★★★★★
-                </div>
-                <span>178 Reviews</span>
-              </div>
-              <button class="add-to-cart-btn" data-product="Pudim de Leite" data-price="15.00">
-                <span class="material-icons" style="font-size: 18px;">add_shopping_cart</span>
-                Adicionar ao Carrinho
-              </button>
-            </div>
-          </article>
-
-          <!-- Produto 6 -->
-          <article class="menu-card" role="listitem" tabindex="0" data-category="espetos">
-            <img src="/images/espetos/espeto-misto.jpg" alt="Espeto Misto" />
-            <div class="menu-content">
-              <h3 class="menu-title">Espeto Misto</h3>
-              <p class="price"><span>R$ 28,90</span></p>
-              <div class="reviews" aria-label="Rating: 4.8 out of 5 stars, 142 Reviews">
-                <div class="stars" aria-hidden="true">
-                  ★★★★★
-                </div>
-                <span>142 Reviews</span>
-              </div>
-              <button class="add-to-cart-btn" data-product="Espeto Misto" data-price="28.90">
-                <span class="material-icons" style="font-size: 18px;">add_shopping_cart</span>
-                Adicionar ao Carrinho
-              </button>
-            </div>
-          </article>
+              <article class="menu-card" role="listitem" tabindex="0" data-category="bebidas">
+                  <img src="/images/bebidas/refrigerante.jpg" alt="Refrigerante" />
+                  <div class="menu-content">
+                      <h3 class="menu-title">Refrigerante</h3>
+                      <p class="price"><span>R$ 8,00</span></p>
+                      <div class="reviews" aria-label="Rating: 4.2 out of 5 stars, 89 Reviews">
+                          <div class="stars" aria-hidden="true">
+                              ★★★★☆
+                          </div>
+                          <span>89 Reviews</span>
+                      </div>
+                      <form asp-controller="Carrinho" asp-action="Adicionar" method="post">
+                          <input type="hidden" name="produtoId" value="3" />
+                          <input type="hidden" name="nome" value="Refrigerante" />
+                          <input type="hidden" name="preco" value="8.00" />
+                          <button type="submit" class="add-to-cart-btn">
+                              <span class="material-icons" aria-hidden="true">shopping_cart</span>
+                              ADICIONAR AO CARRINHO
+                          </button>
+                      </form>
+                  </div>
+              </article>
+          }
         </div>
       </div>
     </section>
@@ -617,24 +584,21 @@
       // FUNCIONALIDADE 1: FILTRO DE CATEGORIAS
       // =================================================================
       const filterButtons = document.querySelectorAll('.filter-btn');
-      const productCards = document.querySelectorAll('.product-card');
+      const menuCards = document.querySelectorAll('.menu-card');
 
       filterButtons.forEach(button => {
         button.addEventListener('click', function () {
-          // Lógica para ativar/desativar botões
-          filterButtons.forEach(btn => {
-            btn.classList.remove('active', 'btn-dark');
-            btn.classList.add('btn-outline-dark');
-          });
-          this.classList.add('active', 'btn-dark');
-          this.classList.remove('btn-outline-dark');
+          // Remove active class from all buttons
+          filterButtons.forEach(btn => btn.classList.remove('active'));
+          // Add active class to clicked button
+          this.classList.add('active');
 
           const category = this.getAttribute('data-category');
 
-          // Lógica para mostrar/esconder os cards de produto
-          productCards.forEach(card => {
-            const productCategory = card.getAttribute('data-product-category');
-            if (category === 'all' || productCategory === category) {
+          // Filter menu cards
+          menuCards.forEach(card => {
+            const cardCategory = card.getAttribute('data-category');
+            if (category === 'all' || cardCategory === category) {
               card.style.display = 'block';
             } else {
               card.style.display = 'none';
@@ -644,69 +608,27 @@
       });
 
       // =================================================================
-      // FUNCIONALIDADE 2: ADICIONAR PRODUTO AO CARRINHO
+      // FUNCIONALIDADE 2: NOTIFICAÇÃO AO ADICIONAR AO CARRINHO
       // =================================================================
-      const addToCartButtons = document.querySelectorAll('.adicionar-carrinho-btn');
-
-      // Opcional: Se você tiver uma notificação como a do código antigo
+      const addToCartForms = document.querySelectorAll('form[asp-controller="Carrinho"]');
       const cartNotification = document.getElementById('cartNotification');
 
-      addToCartButtons.forEach(button => {
-        button.addEventListener('click', function () {
-          const produtoId = this.getAttribute('data-produto-id');
-
-          // Envia a requisição para o nosso CarrinhoController no back-end
-          fetch(`/Carrinho/Adicionar/${produtoId}`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-              // Se você habilitar a proteção AntiForgery, precisará adicionar o token aqui.
-            }
-          })
-            .then(response => {
-              if (!response.ok) {
-                // Se a resposta do servidor for um erro (ex: 404, 500), lança um erro.
-                throw new Error('A resposta da rede não foi OK');
-              }
-              return response.json();
-            })
-            .then(data => {
-              if (data.sucesso) {
-                console.log('Produto adicionado com sucesso! Total de itens no carrinho:', data.totalItens);
-
-                // Mostra uma notificação para o usuário
-                // Você pode usar um 'alert' simples ou uma notificação mais elegante.
-                alert('Produto adicionado ao carrinho!');
-
-                // Exemplo com a notificação do seu código antigo:
-                if (cartNotification) {
-                  cartNotification.textContent = 'Produto adicionado ao carrinho!';
-                  cartNotification.style.display = 'block';
-                  setTimeout(() => {
-                    cartNotification.style.display = 'none';
-                  }, 3000);
-                }
-
-                // Opcional: Atualizar um contador de itens no cabeçalho
-                // const cartCounter = document.getElementById('cart-item-count');
-                // if (cartCounter) {
-                //     cartCounter.textContent = data.totalItens;
-                // }
-              } else {
-                alert('Ocorreu um erro ao adicionar o produto.');
-              }
-            })
-            .catch(error => {
-              console.error('Erro ao adicionar ao carrinho:', error);
-              alert('Ocorreu um erro de comunicação com o servidor.');
-            });
+      addToCartForms.forEach(form => {
+        form.addEventListener('submit', function (e) {
+          // Mostra a notificação
+          if (cartNotification) {
+            cartNotification.style.display = 'block';
+            setTimeout(() => {
+              cartNotification.style.display = 'none';
+            }, 3000);
+          }
+          
+          // O formulário continua com o submit normal para o servidor
         });
       });
 
     });
   </script>
-  }
 
 </body>
-
 </html>

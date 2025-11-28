@@ -1,65 +1,39 @@
-// =================================================================
-// Usings (Importações)
-// =================================================================
+// Controllers/CardapioController.cs
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore; // Necessário para ToListAsync()
-using OsBonsEspetos.Data;
 using OsBonsEspetos.Models;
-using System.Threading.Tasks; // Necessário para Task<IActionResult>
+using OsBonsEspetos.ViewModels;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace OsBonsEspetos.Controllers; // Namespace simplificado
-
-// =================================================================
-// Definição da Classe (ÚNICA E COMPLETA)
-// =================================================================
-public class CardapioController : Controller
+namespace OsBonsEspetos.Controllers
 {
-    // =================================================================
-    // Injeção de Dependência
-    // =================================================================
-    private readonly AppDbContext _context;
-
-    public CardapioController(AppDbContext context)
+    public class CardapioController : Controller
     {
-        _context = context; // O sistema entrega o acesso ao banco de dados
-    }
-
-    // =================================================================
-    // Actions (Métodos que respondem a URLs)
-    // =================================================================
-
-    // GET: /Cardapio ou /Cardapio/Index
-    // Este método exibe a lista de todos os produtos (o cardápio).
-    public async Task<IActionResult> Index()
-    {
-        // Busca os produtos no banco de dados, incluindo a informação da Categoria
-        var produtos = await _context.Produtos.Include(p => p.Categoria).ToListAsync();
-        
-        // Envia a lista de produtos para a View correspondente
-        return View(produtos);
-    }
-
-    // GET: /Cardapio/Detalhes/5
-    // Mostra os detalhes de um único produto.
-    public async Task<IActionResult> Detalhes(int? id)
-    {
-        if (id == null)
+        public IActionResult Index(string categoria = "")
         {
-            return NotFound(); // Retorna erro 404 se nenhum ID for fornecido
-        }
+            // Exemplo de produtos - substitua pelos seus dados reais
+            var produtos = new List<Produto>
+            {
+                new Produto { Id = 1, Nome = "Espeto de Carne", Preco = 25.90m, Descricao = "Espeto de Carne suculenta com temperos especiais", Categoria = "Espetos" },
+                new Produto { Id = 2, Nome = "Espeto de Frango", Preco = 22.50m, Descricao = "Espeto de Frango marinado e grelhado", Categoria = "Espetos" },
+                new Produto { Id = 3, Nome = "Refrigerante", Preco = 8.00m, Descricao = "Refrigerante gelado 350ml", Categoria = "Bebidas" },
+                new Produto { Id = 4, Nome = "Batata Frita", Preco = 12.00m, Descricao = "Porção de batata frita crocante", Categoria = "Acompanhamentos" }
+            };
 
-        var produto = await _context.Produtos
-            .Include(p => p.Categoria) // Inclui a categoria do produto
-            .FirstOrDefaultAsync(m => m.Id == id);
-            
-        if (produto == null)
-        {
-            return NotFound(); // Retorna erro 404 se o produto não for encontrado
-        }
+            // Filtrar por categoria se especificada
+            if (!string.IsNullOrEmpty(categoria))
+            {
+                produtos = produtos.Where(p => p.Categoria == categoria).ToList();
+            }
 
-        return View(produto); // Envia o produto encontrado para a View "Detalhes"
+            var viewModel = new CardapioViewModel
+            {
+                Produtos = produtos,
+                Categorias = new List<string> { "Todos", "Espetos", "Bebidas", "Acompanhamentos" },
+                CategoriaSelecionada = categoria
+            };
+
+            return View(viewModel);
+        }
     }
-    
-    // NOTA: Removi os métodos Create e os de API para simplificar e focar na funcionalidade principal.
-    // Podemos adicioná-los de volta depois, se você precisar de uma área para gerenciar produtos.
 }

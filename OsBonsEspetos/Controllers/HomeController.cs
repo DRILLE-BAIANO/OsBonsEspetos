@@ -1,55 +1,48 @@
-// =================================================================
-// Usings (Importações) - Adicionamos as que faltavam
-// =================================================================
-using System.Diagnostics;
-using System.Threading.Tasks; // Necessário para programação assíncrona
+// Controllers/HomeController.cs
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore; // Necessário para usar ToListAsync()
-using OsBonsEspetos.Data;       // Necessário para usar o AppDbContext
 using OsBonsEspetos.Models;
-using OsBonsEspetos.ViewModels; 
+using OsBonsEspetos.ViewModels;
+using System.Collections.Generic;
+using System.Diagnostics;
 
-namespace OsBonsEspetos.Controllers;
-
-public class HomeController : Controller
+namespace OsBonsEspetos.Controllers
 {
-    // =================================================================
-    // Injeção de Dependência
-    // =================================================================
-    private readonly ILogger<HomeController> _logger;
-    private readonly AppDbContext _context; // Variável para guardar o acesso ao banco
-
-    // O construtor agora recebe o AppDbContext além do ILogger
-    public HomeController(ILogger<HomeController> logger, AppDbContext context)
+    public class HomeController : Controller
     {
-        _logger = logger;
-        _context = context; // O sistema entrega o acesso ao banco, e nós o guardamos
-    }
+        private readonly ILogger<HomeController> _logger;
 
-    // =================================================================
-    // Action 'Index' - Corrigida
-    // =================================================================
-    public async Task<IActionResult> Index()
-    {
-        // 1. Busca a lista de produtos no banco de dados de forma assíncrona
-        var produtos = await _context.Produtos.ToListAsync();
-        
-        // 2. Envia a lista de produtos para a View. 
-        //    Agora, a variável 'Model' na sua View não será mais nula.
-        return View(produtos);
-    }
+        public HomeController(ILogger<HomeController> logger)
+        {
+            _logger = logger;
+        }
 
-    // =================================================================
-    // Outras Actions (não precisam de alteração)
-    // =================================================================
-    public IActionResult Privacy()
-    {
-        return View();
-    }
+        public IActionResult Index()
+        {
+            // Exemplo de produtos - substitua pelos seus dados reais
+            var produtos = new List<Produto>
+            {
+                new Produto { Id = 1, Nome = "Espeto de Carne", Preco = 25.90m, Descricao = "Espeto de Carne suculenta com temperos especiais" },
+                new Produto { Id = 2, Nome = "Espeto de Frango", Preco = 22.50m, Descricao = "Espeto de Frango marinado e grelhado" },
+                new Produto { Id = 3, Nome = "Refrigerante", Preco = 8.00m, Descricao = "Refrigerante gelado 350ml" }
+            };
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var viewModel = new HomeViewModel
+            {
+                Produtos = produtos
+            };
+
+            return View(viewModel);
+        }
+
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
     }
 }
