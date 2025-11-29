@@ -12,7 +12,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewData["Title"] - Os Bons Espetos</title>
     <style>
-        /* Seus estilos CSS aqui - mantenha os mesmos estilos do carrinho */
         * {
             margin: 0;
             padding: 0;
@@ -21,49 +20,60 @@
         }
         
         body {
-            background-color: #ffffff;
+            background-color: #f8f9fa;
             color: #333333;
             line-height: 1.6;
         }
         
         .header {
-            background-color: #1a1a1a;
+            background: linear-gradient(135deg, #ea580c, #f97316);
             color: white;
-            padding: 2rem 0;
+            padding: 1.5rem 0;
             text-align: center;
             border-bottom: 3px solid #d4af37;
-        }
-        
-        .header h1 {
-            font-size: 2.5rem;
-            font-weight: 300;
-            letter-spacing: 2px;
-            text-transform: uppercase;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
         .container {
-            max-width: 1000px;
-            margin: 3rem auto;
-            padding: 0 2rem;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .logo {
+            font-weight: 900;
+            font-size: 2rem;
+            color: #ffffff;
+            letter-spacing: 0.01em;
+            text-decoration: none;
+            display: inline-block;
         }
         
         .page-header {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
+            padding: 1rem;
         }
         
         .page-header h2 {
-            font-size: 2rem;
-            color: #1a1a1a;
-            margin-bottom: 1rem;
-            font-weight: 400;
+            font-size: 2.2rem;
+            color: #ea580c;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .page-header p {
+            color: #666;
+            font-size: 1.1rem;
         }
         
         .cart-section {
-            background-color: #fafafa;
-            border: 1px solid #e0e0e0;
-            padding: 2.5rem;
+            background-color: white;
+            border-radius: 12px;
+            padding: 2rem;
             margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
         }
         
         .cart-table {
@@ -73,91 +83,328 @@
         }
         
         .cart-table thead {
-            border-bottom: 2px solid #1a1a1a;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 8px;
         }
         
         .cart-table th {
-            padding: 1.5rem 1rem;
+            padding: 1.2rem 1rem;
             text-align: left;
-            font-weight: 500;
-            color: #1a1a1a;
-            font-size: 1rem;
+            font-weight: 600;
+            color: #374151;
+            font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            border-bottom: 2px solid #e5e7eb;
         }
         
         .cart-table td {
-            padding: 1.5rem 1rem;
-            border-bottom: 1px solid #e0e0e0;
+            padding: 1.2rem 1rem;
+            border-bottom: 1px solid #e5e7eb;
             vertical-align: middle;
-            color: #444;
+            color: #4b5563;
+        }
+        
+        .cart-table tbody tr:hover {
+            background-color: #f9fafb;
+        }
+        
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .quantity-btn {
+            background: linear-gradient(135deg, #ea580c, #f97316);
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 4px rgba(234, 88, 12, 0.3);
+        }
+        
+        .quantity-btn:hover:not(:disabled) {
+            background: linear-gradient(135deg, #c2410c, #ea580c);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(234, 88, 12, 0.4);
+        }
+        
+        .quantity-btn:disabled {
+            background: #d1d5db;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .quantity-input {
+            width: 70px;
+            text-align: center;
+            padding: 0.6rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            background-color: #fff;
+            transition: border-color 0.3s ease;
+        }
+        
+        .quantity-input:focus {
+            outline: none;
+            border-color: #ea580c;
+        }
+        
+        .quantity-form {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0;
+            justify-content: center;
         }
         
         .btn {
-            display: inline-block;
-            padding: 0.8rem 1.8rem;
-            border-radius: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
             text-decoration: none;
-            font-weight: 500;
+            font-weight: 600;
             transition: all 0.3s ease;
             border: none;
             cursor: pointer;
-            font-size: 0.95rem;
+            font-size: 1rem;
             text-align: center;
-            text-transform: uppercase;
             letter-spacing: 0.5px;
+            gap: 0.5rem;
         }
         
         .btn-primary {
-            background-color: #1a1a1a;
+            background: linear-gradient(135deg, #ea580c, #f97316);
             color: white;
-            border: 1px solid #1a1a1a;
+            border: none;
+            box-shadow: 0 4px 6px rgba(234, 88, 12, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #c2410c, #ea580c);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(234, 88, 12, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+            border: none;
+        }
+        
+        .btn-secondary:hover {
+            background: #4b5563;
+            transform: translateY(-2px);
         }
         
         .btn-danger {
-            background-color: transparent;
-            color: #d32f2f;
-            border: 1px solid #d32f2f;
-        }
-        
-        .btn-danger:hover {
-            background-color: #d32f2f;
-            color: white;
-        }
-        
-        .btn-sm {
-            padding: 0.6rem 1.2rem;
+            background: transparent;
+            color: #dc2626;
+            border: 2px solid #dc2626;
+            padding: 0.5rem 1rem;
             font-size: 0.85rem;
         }
         
+        .btn-danger:hover {
+            background: #dc2626;
+            color: white;
+            transform: translateY(-1px);
+        }
+        
         .alert-info {
-            background-color: #f8f8f8;
-            color: #444;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            color: #6b7280;
             padding: 2rem;
-            border: 1px solid #e0e0e0;
+            border: 2px dashed #d1d5db;
             margin-bottom: 2rem;
             text-align: center;
+            border-radius: 12px;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .text-end {
+            text-align: right;
+        }
+        
+        .text-start {
+            text-align: left;
+        }
+        
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+            position: relative;
+        }
+        
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #ea580c;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        .success-message {
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            color: #065f46;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            display: none;
+            border-left: 4px solid #10b981;
+        }
+        
+        .error-message {
+            background: linear-gradient(135deg, #fee2e2, #fecaca);
+            color: #dc2626;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            display: none;
+            border-left: 4px solid #ef4444;
+        }
+        
+        .cart-total {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+        
+        .cart-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        
+        .empty-cart-icon {
+            font-size: 4rem;
+            color: #d1d5db;
+            margin-bottom: 1rem;
+        }
+        
+        @@keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        @@keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .cart-item {
+            animation: slideIn 0.3s ease-out;
         }
         
         footer {
-            background-color: #1a1a1a;
+            background: linear-gradient(135deg, #1f2937, #374151);
             color: white;
             text-align: center;
-            padding: 2.5rem 1rem;
+            padding: 2rem 1rem;
             margin-top: 4rem;
         }
         
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: space-between;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .social-icon-link {
+            color: #ffffff;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon-link:hover {
+            color: #f97316;
+            transform: translateY(-2px);
+        }
+        
         @@media (max-width: 768px) {
+            .container {
+                margin: 1rem auto;
+                padding: 0 0.5rem;
+            }
+            
             .cart-table {
                 display: block;
                 overflow-x: auto;
+                font-size: 0.9rem;
+            }
+            
+            .quantity-controls {
+                flex-direction: row;
+            }
+            
+            .cart-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .footer-container {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
     <header class="header">
-        <h1>Os Bons Espetos</h1>
+        <div class="container">
+            <nav aria-label="Primary Navigation">
+                <a href="/" class="logo">𝗢𝘀 𝗕𝗼𝗻𝘀 𝗘𝘀𝗽𝗲𝘁𝗼𝘀</a>
+            </nav>
+        </div>
     </header>
 
     <div class="container">
@@ -166,30 +413,63 @@
             <p>Confira os itens do seu pedido e finalize a compra.</p>
         </div>
 
+        <div id="successMessage" class="success-message">
+            ✅ Carrinho atualizado com sucesso!
+        </div>
+
+        <div id="errorMessage" class="error-message">
+            ❌ Erro ao atualizar o carrinho. Tente novamente.
+        </div>
+
         @if (Model != null && Model.Itens.Any())
         {
             <div class="cart-section">
                 <table class="cart-table">
                     <thead>
                         <tr>
-                            <th>Produto</th>
+                            <th class="text-start">Produto</th>
                             <th class="text-center">Quantidade</th>
                             <th class="text-end">Preço Unitário</th>
                             <th class="text-end">Subtotal</th>
-                            <th></th>
+                            <th class="text-center">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model.Itens)
                         {
-                            <tr>
-                                <td>@item.Produto.Nome</td>
-                                <td class="text-center">@item.Quantidade</td>
-                                <td class="text-end">@item.PrecoUnitario.ToString("C")</td>
-                                <td class="text-end">@item.Subtotal.ToString("C")</td>
-                                <td class="text-end">
-                                    <form asp-controller="Carrinho" asp-action="Remover" asp-route-id="@item.ProdutoId" method="post">
-                                        <button type="submit" class="btn btn-danger btn-sm">Remover</button>
+                            <tr id="row-@item.ProdutoId" class="cart-item">
+                                <td class="text-start">
+                                    <strong>@item.Produto.Nome</strong>
+                                </td>
+                                <td class="text-center">
+                                    <div class="quantity-controls">
+                                        <form asp-controller="Carrinho" asp-action="AtualizarQuantidade" method="post" class="quantity-form" id="form-@item.ProdutoId">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="produtoId" value="@item.ProdutoId" />
+                                            <button type="button" class="quantity-btn decrement-btn" 
+                                                    data-produto-id="@item.ProdutoId"
+                                                    @(item.Quantidade <= 1 ? "disabled" : "")>
+                                                −
+                                            </button>
+                                            <input type="number" name="quantidade" value="@item.Quantidade" min="1" max="99" 
+                                                   class="quantity-input" id="quantity-@item.ProdutoId" readonly />
+                                            <button type="button" class="quantity-btn increment-btn" 
+                                                    data-produto-id="@item.ProdutoId">
+                                                +
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                                <td class="text-end" id="preco-@item.ProdutoId">@item.PrecoUnitario.ToString("C")</td>
+                                <td class="text-end" id="subtotal-@item.ProdutoId">
+                                    <strong>@item.Subtotal.ToString("C")</strong>
+                                </td>
+                                <td class="text-center">
+                                    <form asp-controller="Carrinho" asp-action="Remover" asp-route-id="@item.ProdutoId" method="post" class="remove-form">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-danger">
+                                            🗑️ Remover
+                                        </button>
                                     </form>
                                 </td>
                             </tr>
@@ -198,32 +478,202 @@
                     <tfoot>
                         <tr>
                             <td colspan="3" class="text-end"><strong>Total do Pedido</strong></td>
-                            <td class="text-end"><strong>@Model.TotalCarrinho.ToString("C")</strong></td>
+                            <td class="text-end" id="total-carrinho">
+                                <strong style="font-size: 1.2rem; color: #ea580c;">@Model.TotalCarrinho.ToString("C")</strong>
+                            </td>
                             <td></td>
                         </tr>
                     </tfoot>
                 </table>
 
-                <div class="text-center">
-                    <a href="#" class="btn btn-primary">Finalizar Pedido</a>
+                <div class="cart-actions">
+                    <a asp-controller="Pedido" asp-action="Finalizar" class="btn btn-primary">
+                        🛒 Finalizar Pedido
+                    </a>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">
+                        ← Continuar Comprando
+                    </a>
                 </div>
             </div>
         }
         else
         {
             <div class="alert-info">
-                <p>Seu carrinho está vazio.</p>
-            </div>
-            <div class="text-center">
-                <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Ver o Menu</a>
+                <div class="empty-cart-icon">🛒</div>
+                <h3 style="color: #6b7280; margin-bottom: 1rem;">Seu carrinho está vazio</h3>
+                <p style="color: #9ca3af; margin-bottom: 1.5rem;">Adicione alguns produtos deliciosos para começar seu pedido!</p>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-primary">
+                    📋 Ver o Menu Completo
+                </a>
             </div>
         }
     </div>
 
     <footer>
-        <p>© 2025 - OsBonsEspetos</p>
-        <p>Privacy</p>
-        <p>localhost:5079</p>
+        <div class="footer-container">
+            <div>
+                <h3>📍 Localização</h3>
+                <address>
+                    R. Virgílio Manesco, 21 - Conj. Res. Cel. Jose V. Franca II<br>
+                    Barra Bonita - SP, 17345-060
+                </address>
+                <a href="https://maps.app.goo.gl/veXqvEPpqaPnfEF36" class="btn" style="background: #f97316; color: white; margin-top: 0.5rem;" target="_blank">
+                    🗺️ Ver no Mapa
+                </a>
+            </div>
+            <div>
+                <h3>🕒 Funcionamento</h3>
+                <p>Segunda a Sexta</p>
+                <p>10:00 às 20:00</p>
+                <p>📞 <a href="tel:14998569602" style="color: #f97316; text-decoration: none;">(14) 99856-9602</a></p>
+            </div>
+            <div>
+                <h3>🌐 Redes Sociais</h3>
+                <nav class="social-icons" aria-label="Social Media Links">
+                    <a href="https://www.instagram.com/osbons.espetosbb" target="_blank" class="social-icon-link">
+                        📷 Instagram
+                    </a>
+                    <a href="https://www.youtube.com/embed/zcC2IsMNBdA?si=E3xGF3ctHw_qwWa_" target="_blank" class="social-icon-link">
+                        ▶️ YouTube
+                    </a>
+                </nav>
+            </div>
+        </div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Carrinho carregado - inicializando funcionalidades...');
+            
+            // Botões de incrementar e decrementar
+            const incrementBtns = document.querySelectorAll('.increment-btn');
+            const decrementBtns = document.querySelectorAll('.decrement-btn');
+            const removeForms = document.querySelectorAll('.remove-form');
+            
+            // Funções de mensagem
+            function showSuccessMessage(text = 'Carrinho atualizado com sucesso!') {
+                const message = document.getElementById('successMessage');
+                message.innerHTML = `✅ ${text}`;
+                message.style.display = 'block';
+                setTimeout(() => {
+                    message.style.display = 'none';
+                }, 3000);
+            }
+            
+            function showErrorMessage(text = 'Erro ao atualizar o carrinho. Tente novamente.') {
+                const message = document.getElementById('errorMessage');
+                message.innerHTML = `❌ ${text}`;
+                message.style.display = 'block';
+                setTimeout(() => {
+                    message.style.display = 'none';
+                }, 5000);
+            }
+            
+            // Função para atualizar quantidade
+            async function atualizarQuantidade(produtoId, novaQuantidade) {
+                console.log(`Atualizando produto ${produtoId} para quantidade ${novaQuantidade}`);
+                
+                const form = document.getElementById(`form-${produtoId}`);
+                const incrementBtn = document.querySelector(`.increment-btn[data-produto-id="${produtoId}"]`);
+                const decrementBtn = document.querySelector(`.decrement-btn[data-produto-id="${produtoId}"]`);
+                
+                // Estado de loading
+                incrementBtn.disabled = true;
+                decrementBtn.disabled = true;
+                form.classList.add('loading');
+                
+                try {
+                    const formData = new FormData();
+                    formData.append('produtoId', produtoId);
+                    formData.append('quantidade', novaQuantidade);
+                    
+                    // Obter token anti-forgery
+                    const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+                    
+                    const response = await fetch('/Carrinho/AtualizarQuantidade', {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'RequestVerificationToken': token,
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`Erro HTTP: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    console.log('Resposta do servidor:', data);
+                    
+                    if (data.success) {
+                        // Atualizar interface
+                        document.getElementById(`quantity-${produtoId}`).value = data.novaQuantidade;
+                        document.getElementById(`subtotal-${produtoId}`).innerHTML = `<strong>${formatCurrency(data.novoSubtotal)}</strong>`;
+                        document.getElementById('total-carrinho').innerHTML = `<strong style="font-size: 1.2rem; color: #ea580c;">${formatCurrency(data.totalCarrinho)}</strong>`;
+                        
+                        // Atualizar estado dos botões
+                        decrementBtn.disabled = data.novaQuantidade <= 1;
+                        
+                        showSuccessMessage();
+                    } else {
+                        showErrorMessage(data.message || 'Erro ao atualizar quantidade');
+                    }
+                    
+                } catch (error) {
+                    console.error('Erro na requisição:', error);
+                    showErrorMessage('Erro de conexão. Verifique sua internet.');
+                } finally {
+                    // Restaurar estado
+                    incrementBtn.disabled = false;
+                    if (novaQuantidade > 1) {
+                        decrementBtn.disabled = false;
+                    }
+                    form.classList.remove('loading');
+                }
+            }
+            
+            // Formatar moeda
+            function formatCurrency(value) {
+                return 'R$ ' + parseFloat(value).toFixed(2).replace('.', ',');
+            }
+            
+            // Event listeners
+            incrementBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const produtoId = this.getAttribute('data-produto-id');
+                    const quantityInput = document.getElementById(`quantity-${produtoId}`);
+                    let currentValue = parseInt(quantityInput.value);
+                    
+                    if (currentValue < 99) {
+                        atualizarQuantidade(produtoId, currentValue + 1);
+                    }
+                });
+            });
+            
+            decrementBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const produtoId = this.getAttribute('data-produto-id');
+                    const quantityInput = document.getElementById(`quantity-${produtoId}`);
+                    let currentValue = parseInt(quantityInput.value);
+                    
+                    if (currentValue > 1) {
+                        atualizarQuantidade(produtoId, currentValue - 1);
+                    }
+                });
+            });
+            
+            // Confirmação para remoção
+            removeForms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    if (!confirm('Tem certeza que deseja remover este item do carrinho?')) {
+                        e.preventDefault();
+                    }
+                });
+            });
+            
+            console.log('Funcionalidades do carrinho inicializadas com sucesso!');
+        });
+    </script>
 </body>
 </html>
