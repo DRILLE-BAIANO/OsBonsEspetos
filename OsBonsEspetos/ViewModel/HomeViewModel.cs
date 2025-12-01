@@ -1,6 +1,7 @@
-// ViewModels/HomeViewModel.cs
+// ViewModels/HomeViewModel.cs - Versão completa
 using OsBonsEspetos.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OsBonsEspetos.ViewModels
 {

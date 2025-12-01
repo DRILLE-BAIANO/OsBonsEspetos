@@ -460,6 +460,17 @@
 
         @if (Model != null && Model.Itens.Any())
         {
+            <!-- Armazenar dados dos itens em elementos HTML ocultos para usar no JavaScript -->
+            <div id="cartData" style="display: none;">
+                @foreach (var item in Model.Itens)
+                {
+                    <div class="cart-item-data" data-nome="@item.Produto.Nome" data-quantidade="@item.Quantidade"
+                        data-subtotal="@item.Subtotal.ToString("C")">
+                    </div>
+                }
+                <div id="totalPedido" data-total="@Model.TotalCarrinho.ToString("C")"></div>
+            </div>
+
             <div class="cart-section">
                 <table class="cart-table">
                     <thead>
@@ -485,8 +496,7 @@
                                             @Html.AntiForgeryToken()
                                             <input type="hidden" name="produtoId" value="@item.ProdutoId" />
                                             <button type="button" class="quantity-btn decrement-btn"
-                                                data-produto-id="@item.ProdutoId"
-                                                @(item.Quantidade <= 1 ? "disabled" : "")>
+                                                data-produto-id="@item.ProdutoId" @(item.Quantidade <= 1 ? "disabled" : "")>
                                                 −
                                             </button>
                                             <input type="number" name="quantidade" value="@item.Quantidade" min="1" max="99"
@@ -527,8 +537,7 @@
                 </table>
 
                 <div class="cart-actions">
-                    <a asp-controller="Pedido" asp-action="Finalizar" class="btn btn-primary btn-finalizar-pedido"
-                        id="finalizarPedidoBtn">
+                    <a asp-controller="Pedido" asp-action="Finalizar" class="btn btn-primary" id="finalizarPedidoBtn">
                         🛒 Finalizar Pedido
                     </a>
                     <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">
@@ -542,8 +551,8 @@
             <div class="alert-info">
                 <div class="empty-cart-icon">🛒</div>
                 <h3 style="color: #6b7280; margin-bottom: 1rem;">Seu carrinho está vazio</h3>
-                <p style="color: #9ca3af; margin-bottom: 1.5rem;">Adicione alguns produtos deliciosos para começar seu pedido!
-                </p>
+                <p style="color: #9ca3af; margin-bottom: 1.5rem;">Adicione alguns produtos deliciosos para começar seu
+                    pedido!</p>
                 <a asp-controller="Home" asp-action="Index" class="btn btn-primary">
                     📋 Ver o Menu Completo
                 </a>
@@ -586,90 +595,16 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        window.onload = function () {
+        document.addEventListener('DOMContentLoaded', function () {
             console.log('Carrinho carregado - inicializando funcionalidades...');
 
-            // ========== SWEETALERT PARA FINALIZAR PEDIDO ==========
-            const finalizarPedidoBtn = document.querySelector('.btn-finalizar-pedido');
-
-            if (finalizarPedidoBtn) {
-                finalizarPedidoBtn.addEventListener('click', function (e) {
-                    e.preventDefault(); // Previne o comportamento padrão do link
-
-                    // Construir a lista de itens para o SweetAlert
-                    let itensList = '';
-                    @foreach (var item in Model.Itens)
-                    {
-                        <text>
-                                itensList += `<div style="display: flex; justify-content: space-between; margin-bottom: 8px; padding: 5px; background: #f9fafb; border-radius: 4px;">
-                                    <span>${item.Produto.Nome} x ${item.Quantidade}</span>
-                                    <span style="font-weight: bold; color: #ea580c;">${item.Subtotal.ToString("C")}</span>
-                                </div>`;
-                        </text>
-                    }
-
-                    Swal.fire({
-                        title: 'Finalizar Pedido',
-                        html: `
-                            <div style="text-align: left;">
-                                <p style="margin-bottom: 15px; color: #4b5563;">Confira os detalhes do seu pedido antes de finalizar:</p>
-                                
-                                <div style="max-height: 200px; overflow-y: auto; margin-bottom: 15px; padding: 10px; background: #f8f9fa; border-radius: 8px;">
-                                    ${itensList}
-                                </div>
-                                
-                                <div style="display: flex; justify-content: space-between; padding: 10px 0; border-top: 1px solid #e5e7eb; font-size: 1.1rem;">
-                                    <span style="font-weight: bold;">Total do Pedido:</span>
-                                    <span style="color: #ea580c; font-weight: bold; font-size: 1.2rem;">@Model.TotalCarrinho.ToString("C")</span>
-                                </div>
-                                
-                                <div style="margin-top: 15px; padding: 10px; background: #fff7ed; border-radius: 6px; border-left: 4px solid #ea580c;">
-                                    <p style="color: #ea580c; margin: 0; font-size: 0.9rem;">
-                                        ⚠️ Após confirmar, você será redirecionado para a página de finalização.
-                                    </p>
-                                </div>
-                            </div>
-                        `,
-                        icon: 'question',
-                        showCancelButton: true,
-                        confirmButtonColor: '#ea580c',
-                        cancelButtonColor: '#6b7280',
-                        confirmButtonText: 'Sim, finalizar pedido',
-                        cancelButtonText: 'Cancelar',
-                        reverseButtons: true,
-                        width: '500px',
-                        customClass: {
-                            popup: 'swal2-popup-custom',
-                            confirmButton: 'swal2-confirm-custom',
-                            cancelButton: 'swal2-cancel-custom'
-                        }
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            // Mostrar SweetAlert de "Compra finalizada"
-                            Swal.fire({
-                                title: 'Compra finalizada!',
-                                text: 'Seu pedido foi enviado com sucesso.',
-                                icon: 'success',
-                                confirmButtonText: 'OK',
-                                allowOutsideClick: false,
-                                customClass: {
-                                    popup: 'swal2-popup-custom',
-                                    confirmButton: 'swal2-confirm-custom'
-                                }
-                                });
-                        }
-                    });
-                });
-            }
-
-            // ========== FUNÇÕES EXISTENTES ==========
-
-            // Botões de incrementar e decrementar
+            // ========== DECLARAÇÃO DE VARIÁVEIS ==========
             const incrementBtns = document.querySelectorAll('.increment-btn');
             const decrementBtns = document.querySelectorAll('.decrement-btn');
             const removeForms = document.querySelectorAll('.remove-form');
+            const finalizarPedidoBtn = document.getElementById('finalizarPedidoBtn');
 
-            // Funções de mensagem
+            // ========== FUNÇÕES DE MENSAGEM ==========
             function showSuccessMessage(text = 'Carrinho atualizado com sucesso!') {
                 const message = document.getElementById('successMessage');
                 message.innerHTML = `✅ ${text}`;
@@ -688,7 +623,7 @@
                 }, 5000);
             }
 
-            // Função para atualizar quantidade
+            // ========== FUNÇÃO PARA ATUALIZAR QUANTIDADE ==========
             async function atualizarQuantidade(produtoId, novaQuantidade) {
                 console.log(`Atualizando produto ${produtoId} para quantidade ${novaQuantidade}`);
 
@@ -752,62 +687,142 @@
                 }
             }
 
-            // Formatar moeda
+            // ========== FUNÇÃO PARA FORMATAR MOEDA ==========
             function formatCurrency(value) {
                 return 'R$ ' + parseFloat(value).toFixed(2).replace('.', ',');
             }
 
-            // Event listeners
-            incrementBtns.forEach(btn => {
-                btn.addEventListener('click', function () {
-                    const produtoId = this.getAttribute('data-produto-id');
-                    const quantityInput = document.getElementById(`quantity-${produtoId}`);
-                    let currentValue = parseInt(quantityInput.value);
+            // ========== FUNÇÃO PARA FINALIZAR PEDIDO (COM SWEETALERT) ==========
+            function finalizarPedido() {
+                if (!finalizarPedidoBtn) return;
 
-                    if (currentValue < 99) {
-                        atualizarQuantidade(produtoId, currentValue + 1);
+                // Coletar dados dos itens do carrinho
+                const cartData = document.getElementById('cartData');
+                if (!cartData) return;
+
+                const itemElements = cartData.querySelectorAll('.cart-item-data');
+                let itensList = '';
+
+                itemElements.forEach(item => {
+                    const nome = item.getAttribute('data-nome');
+                    const quantidade = item.getAttribute('data-quantidade');
+                    const subtotal = item.getAttribute('data-subtotal');
+
+                    itensList += `<div style="display: flex; justify-content: space-between; margin-bottom: 8px; padding: 5px; background: #f9fafb; border-radius: 4px;">
+                        <span>${nome} x ${quantidade}</span>
+                        <span style="font-weight: bold; color: #ea580c;">${subtotal}</span>
+                    </div>`;
+                });
+
+                const totalElement = document.getElementById('totalPedido');
+                const totalPedido = totalElement ? totalElement.getAttribute('data-total') : 'R$ 0,00';
+
+                Swal.fire({
+                    title: 'finalizar pedido',
+                    text: 'Tem certeza que deseja finalizar o pedido?'
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ea580c',
+                    cancelButtonColor: '#6b7280',
+                    confirmButtonText: 'Sim, finalizar pedido',
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true,
+                    width: '500px',
+                    customClass: {
+                        popup: 'swal2-popup-custom',
+                        confirmButton: 'swal2-confirm-custom',
+                        cancelButton: 'swal2-cancel-custom'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            title: 'Processando...',
+                            text: 'Estamos preparando seu pedido',
+                            allowOutsideClick: false,
+                            didOpen: () => {
+                                Swal.fire(
+                                title: 'pedido finalizado',
+                                text: 'seu pedido foi finalizado'
+                                icon: 'afirmative',
+                                showCancelButton: true,
+                                confirmButtonColor: '#ea580c',
+                                cancelButtonColor: '#6b7280',
+                                confirmButtonText: 'Sim, finalizar pedido',
+                                cancelButtonText: 'Cancelar',
+                                reverseButtons: true,
+                                width: '500px',
+                                customClass: {
+                                popup: 'swal2-popup-custom',
+                                confirmButton: 'swal2-confirm-custom',
+                                }, 1000);
                     }
                 });
+            }
+        });
+            }
+
+        // ========== EVENT LISTENERS ==========
+
+        // Event listeners para botões de incrementar
+        incrementBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                const produtoId = this.getAttribute('data-produto-id');
+                const quantityInput = document.getElementById(`quantity-${produtoId}`);
+                let currentValue = parseInt(quantityInput.value);
+
+                if (currentValue < 99) {
+                    atualizarQuantidade(produtoId, currentValue + 1);
+                }
             });
+        });
 
-            decrementBtns.forEach(btn => {
-                btn.addEventListener('click', function () {
-                    const produtoId = this.getAttribute('data-produto-id');
-                    const quantityInput = document.getElementById(`quantity-${produtoId}`);
-                    let currentValue = parseInt(quantityInput.value);
+        // Event listeners para botões de decrementar
+        decrementBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                const produtoId = this.getAttribute('data-produto-id');
+                const quantityInput = document.getElementById(`quantity-${produtoId}`);
+                let currentValue = parseInt(quantityInput.value);
 
-                    if (currentValue > 1) {
-                        atualizarQuantidade(produtoId, currentValue - 1);
-                    }
-                });
+                if (currentValue > 1) {
+                    atualizarQuantidade(produtoId, currentValue - 1);
+                }
             });
+        });
 
-            // Confirmação para remoção (também com SweetAlert)
-            removeForms.forEach(form => {
-                form.addEventListener('submit', function (e) {
-                    e.preventDefault();
-
-                    Swal.fire({
-                        title: 'Remover Item',
-                        text: 'Tem certeza que deseja remover este item do carrinho?',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#dc2626',
-                        cancelButtonColor: '#6b7280',
-                        confirmButtonText: 'Sim, remover',
-                        cancelButtonText: 'Cancelar',
-                        reverseButtons: true
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            // Se confirmar, submete o formulário
-                            form.submit();
-                        }
-                    });
-                });
+        // Event listener para botão de finalizar pedido
+        if (finalizarPedidoBtn) {
+            finalizarPedidoBtn.addEventListener('click', function (e) {
+                e.preventDefault(); // Previne o comportamento padrão do link
+                finalizarPedido(); // Chama a função de finalizar pedido
             });
-
-            console.log('Funcionalidades do carrinho inicializadas com sucesso!');
         }
+
+        // Confirmação para remoção (também com SweetAlert)
+        removeForms.forEach(form => {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                Swal.fire({
+                    title: 'Remover Item',
+                    text: 'Tem certeza que deseja remover este item do carrinho?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc2626',
+                    cancelButtonColor: '#6b7280',
+                    confirmButtonText: 'Sim, remover',
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Se confirmar, submete o formulário
+                        form.submit();
+                    }
+                });
+            });
+        });
+
+        console.log('Funcionalidades do carrinho inicializadas com sucesso!');
+        });
     </script>
 </body>
 

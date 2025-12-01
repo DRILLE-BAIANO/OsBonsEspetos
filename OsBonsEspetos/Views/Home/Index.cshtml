@@ -498,7 +498,6 @@
                     <button class="filter-btn active" data-category="all">Todos</button>
                     <button class="filter-btn" data-category="espetos">Espetos</button>
                     <button class="filter-btn" data-category="bebidas">Bebidas</button>
-                    <button class="filter-btn" data-category="acompanhamentos">Acompanhamentos</button>
                     <button class="filter-btn" data-category="sobremesas">Sobremesas</button>
                 </div>
 
@@ -539,7 +538,7 @@
                             <img src="/images/espetos/espeto-carne.jpg" alt="Espeto de Carne" />
                             <div class="menu-content">
                                 <h3 class="menu-title">Espeto de Carne</h3>
-                                <p class="price"><span>R$ 25,90</span></p>
+                                <p class="price"><span>R$ 7,00</span></p>
                                 <div class="reviews" aria-label="Rating: 4.8 out of 5 stars, 156 Reviews">
                                     <div class="stars" aria-hidden="true">
                                         ★★★★★
@@ -562,7 +561,7 @@
                             <img src="/images/espetos/espeto-frango.jpg" alt="Espeto de Frango" />
                             <div class="menu-content">
                                 <h3 class="menu-title">Espeto de Frango</h3>
-                                <p class="price"><span>R$ 22,50</span></p>
+                                <p class="price"><span>R$ 7,00</span></p>
                                 <div class="reviews" aria-label="Rating: 4.6 out of 5 stars, 128 Reviews">
                                     <div class="stars" aria-hidden="true">
                                         ★★★★☆
@@ -585,6 +584,52 @@
                             <img src="/images/bebidas/refrigerante.jpg" alt="Refrigerante" />
                             <div class="menu-content">
                                 <h3 class="menu-title">Refrigerante</h3>
+                                <p class="price"><span>R$ 8,00</span></p>
+                                <div class="reviews" aria-label="Rating: 4.2 out of 5 stars, 89 Reviews">
+                                    <div class="stars" aria-hidden="true">
+                                        ★★★★☆
+                                    </div>
+                                    <span>70 Reviews</span>
+                                </div>
+                                <form asp-controller="Carrinho" asp-action="Adicionar" method="post" class="add-to-cart-form">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="produtoId" value="3" />
+                                    <input type="hidden" name="quantidade" value="1" />
+                                    <button type="submit" class="add-to-cart-btn" data-produto-id="3" data-produto-nome="Refrigerante">
+                                        <span class="material-icons" aria-hidden="true">shopping_cart</span>
+                                        ADICIONAR AO CARRINHO
+                                    </button>
+                                </form>
+                            </div>
+                       
+                        </article>
+                         <article class="menu-card animated" role="listitem" tabindex="0" data-category="bebidas">
+                            <img src="/images/bebidas/suco.jpg" alt="suco" />
+                            <div class="menu-content">
+                                <h3 class="menu-title">suco natural</h3>
+                                <p class="price"><span>R$ 12,00</span></p>
+                                <div class="reviews" aria-label="Rating: 4.2 out of 5 stars, 89 Reviews">
+                                    <div class="stars" aria-hidden="true">
+                                        ★★★★☆
+                                    </div>
+                                    <span>89 Reviews</span>
+                                </div>
+                                <form asp-controller="Carrinho" asp-action="Adicionar" method="post" class="add-to-cart-form">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="produtoId" value="3" />
+                                    <input type="hidden" name="quantidade" value="1" />
+                                    <button type="submit" class="add-to-cart-btn" data-produto-id="3" data-produto-nome="Refrigerante">
+                                        <span class="material-icons" aria-hidden="true">shopping_cart</span>
+                                        ADICIONAR AO CARRINHO
+                                    </button>
+                                </form>
+                            </div>
+                        </article>
+
+                         <article class="menu-card animated" role="listitem" tabindex="0" data-category="bebidas">
+                            <img src="/images/bebidas/queijo-com-goiabada.jpg" alt="queijo-com-goiabada" />
+                            <div class="menu-content">
+                                <h3 class="menu-title">espeto de romeu e julieta</h3>
                                 <p class="price"><span>R$ 8,00</span></p>
                                 <div class="reviews" aria-label="Rating: 4.2 out of 5 stars, 89 Reviews">
                                     <div class="stars" aria-hidden="true">
@@ -625,16 +670,13 @@
                 <p>Tel: <a href="tel:14998569602" class="tel-link" style="color: #f97316;">14998569602</a></p>
             </div>
             <div>
-                <h6>Social</h6>
+                <h3>Social</h3>
                 <nav class="social-icons" aria-label="Social Media Links">
                     <a href="https://www.instagram.com/osbons.espetosbb" target="_blank" rel="noopener noreferrer"
                       class="social-icon-link" aria-label="Instagram">
                         &#x1F4F7;
                     </a>
-                    <a href="https://www.youtube.com/embed/zcC2IsMNBdA?si=E3xGF3ctHw_qwWa_" target="_blank"
-                      rel="noopener noreferrer" class="social-icon-link" aria-label="YouTube">
-                        &#x25B6;
-                    </a>
+                    
                 </nav>
             </div>
         </div>
@@ -654,7 +696,7 @@
             const cartCountElement = document.getElementById('cart-count');
             let cartCount = 0;
 
-            // Sistema de filtro de categorias
+            // SISTEMA DE FILTRO DE CATEGORIAS CORRIGIDO
             const filterButtons = document.querySelectorAll('.filter-btn');
             const menuCards = document.querySelectorAll('.menu-card');
 
@@ -666,16 +708,20 @@
                     filterButtons.forEach(btn => btn.classList.remove('active'));
                     this.classList.add('active');
 
-                    // Filtra os cards
+                    // Filtra os cards - CÓDIGO CORRIGIDO
                     menuCards.forEach(card => {
                         const cardCategory = card.getAttribute('data-category');
                         
-                        if (category === 'all' || cardCategory === category) {
-                            card.classList.remove('hidden');
+                        // Remove espaços e converte para minúsculas para comparação consistente
+                        const normalizedCategory = category.toLowerCase().trim();
+                        const normalizedCardCategory = (cardCategory || '').toLowerCase().trim();
+                        
+                        if (normalizedCategory === 'all' || normalizedCardCategory === normalizedCategory) {
                             card.style.display = 'flex';
+                            card.classList.remove('hidden');
                         } else {
-                            card.classList.add('hidden');
                             card.style.display = 'none';
+                            card.classList.add('hidden');
                         }
                     });
                 });
@@ -783,6 +829,10 @@
                     this.style.transform = 'translateY(0)';
                 });
             });
+
+            // Teste inicial do filtro
+            console.log('Filtros inicializados:', filterButtons.length);
+            console.log('Cards de menu encontrados:', menuCards.length);
 
             console.log('Funcionalidades da página inicializadas com sucesso!');
         });
