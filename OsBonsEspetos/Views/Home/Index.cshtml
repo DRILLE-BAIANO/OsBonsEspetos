@@ -52,10 +52,12 @@
             margin: 0 auto;
             padding-left: 1rem;
             padding-right: 1rem;
+            
         }
 
         /* Sticky header */
         header {
+
             position: sticky;
             top: 0;
             background: #f97316;
@@ -63,6 +65,19 @@
             z-index: 1000;
             box-shadow: 0 1px 4px rgb(0 0 0 / 0.05);
         }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .header-container .logo {
+            width: 60px;
+            height: auto;
+        }
+
 
         .header h1 {
             font-size: 2.5rem;
@@ -85,6 +100,16 @@
             color: #ffffff;
             letter-spacing: 0.01em;
         }
+
+        .navbar-brand img {
+            width: 140px;
+            /* tamanho ideal — você pode ajustar */
+            height: auto;
+            /* mantém proporção correta */
+            object-fit: contain;
+            
+        }
+
 
         /* CTA button in header */
         .header-cta {
@@ -330,6 +355,7 @@
                 transform: translateX(100%);
                 opacity: 0;
             }
+
             to {
                 transform: translateX(0);
                 opacity: 1;
@@ -341,6 +367,7 @@
                 opacity: 0;
                 transform: translateY(20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -351,9 +378,11 @@
             0% {
                 transform: scale(1);
             }
+
             50% {
                 transform: scale(1.05);
             }
+
             100% {
                 transform: scale(1);
             }
@@ -472,7 +501,10 @@
     <header>
         <div class="container">
             <nav aria-label="Primary Navigation">
-                <a href="/" class="logo" style="font-weight: 900;">𝗢𝘀 𝗕𝗼𝗻𝘀 𝗘𝘀𝗽𝗲𝘁𝗼𝘀</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="/images/logo.png" alt="Logo" />
+                </a>
+                <a href="/" class="logo">𝗢𝘀 𝗕𝗼𝗻𝘀 𝗘𝘀𝗽𝗲𝘁𝗼𝘀</a>
                 <a href="/Carrinho" class="header-cta">
                     <span class="material-icons" aria-hidden="true">shopping_cart</span>
                     <span id="cart-count">Carrinho</span>
@@ -506,9 +538,10 @@
                     {
                         @foreach (var produto in Model.Produtos)
                         {
-                            <article class="menu-card animated" role="listitem" tabindex="0" data-category="@produto.Categoria?.ToLower()">
+                            <article class="menu-card animated" role="listitem" tabindex="0"
+                                data-category="@produto.Categoria?.ToLower()">
                                 <img src="@(string.IsNullOrEmpty(produto.ImagemUrl) ? "/images/placeholder.jpg" : produto.ImagemUrl)"
-                                  alt="@produto.Nome" />
+                                    alt="@produto.Nome" />
                                 <div class="menu-content">
                                     <h3 class="menu-title">@produto.Nome</h3>
                                     <p class="price"><span>@produto.Preco.ToString("C")</span></p>
@@ -518,11 +551,13 @@
                                         </div>
                                         <span>@(new Random().Next(50, 200)) Reviews</span>
                                     </div>
-                                    <form asp-controller="Carrinho" asp-action="Adicionar" method="post" class="add-to-cart-form">
+                                    <form asp-controller="Carrinho" asp-action="Adicionar" method="post"
+                                        class="add-to-cart-form">
                                         @Html.AntiForgeryToken()
                                         <input type="hidden" name="produtoId" value="@produto.Id" />
                                         <input type="hidden" name="quantidade" value="1" />
-                                        <button type="submit" class="add-to-cart-btn" data-produto-id="@produto.Id" data-produto-nome="@produto.Nome">
+                                        <button type="submit" class="add-to-cart-btn" data-produto-id="@produto.Id"
+                                            data-produto-nome="@produto.Nome">
                                             <span class="material-icons" aria-hidden="true">shopping_cart</span>
                                             ADICIONAR AO CARRINHO
                                         </button>
@@ -545,11 +580,13 @@
                                     </div>
                                     <span>156 Reviews</span>
                                 </div>
-                                <form asp-controller="Carrinho" asp-action="Adicionar" method="post" class="add-to-cart-form">
+                                <form asp-controller="Carrinho" asp-action="Adicionar" method="post"
+                                    class="add-to-cart-form">
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="produtoId" value="1" />
                                     <input type="hidden" name="quantidade" value="1" />
-                                    <button type="submit" class="add-to-cart-btn" data-produto-id="1" data-produto-nome="Espeto de Carne">
+                                    <button type="submit" class="add-to-cart-btn" data-produto-id="1"
+                                        data-produto-nome="Espeto de Carne">
                                         <span class="material-icons" aria-hidden="true">shopping_cart</span>
                                         ADICIONAR AO CARRINHO
                                     </button>
@@ -568,11 +605,13 @@
                                     </div>
                                     <span>128 Reviews</span>
                                 </div>
-                                <form asp-controller="Carrinho" asp-action="Adicionar" method="post" class="add-to-cart-form">
+                                <form asp-controller="Carrinho" asp-action="Adicionar" method="post"
+                                    class="add-to-cart-form">
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="produtoId" value="2" />
                                     <input type="hidden" name="quantidade" value="1" />
-                                    <button type="submit" class="add-to-cart-btn" data-produto-id="2" data-produto-nome="Espeto de Frango">
+                                    <button type="submit" class="add-to-cart-btn" data-produto-id="2"
+                                        data-produto-nome="Espeto de Frango">
                                         <span class="material-icons" aria-hidden="true">shopping_cart</span>
                                         ADICIONAR AO CARRINHO
                                     </button>
@@ -591,19 +630,21 @@
                                     </div>
                                     <span>70 Reviews</span>
                                 </div>
-                                <form asp-controller="Carrinho" asp-action="Adicionar" method="post" class="add-to-cart-form">
+                                <form asp-controller="Carrinho" asp-action="Adicionar" method="post"
+                                    class="add-to-cart-form">
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="produtoId" value="3" />
                                     <input type="hidden" name="quantidade" value="1" />
-                                    <button type="submit" class="add-to-cart-btn" data-produto-id="3" data-produto-nome="Refrigerante">
+                                    <button type="submit" class="add-to-cart-btn" data-produto-id="3"
+                                        data-produto-nome="Refrigerante">
                                         <span class="material-icons" aria-hidden="true">shopping_cart</span>
                                         ADICIONAR AO CARRINHO
                                     </button>
                                 </form>
                             </div>
-                       
+
                         </article>
-                         <article class="menu-card animated" role="listitem" tabindex="0" data-category="bebidas">
+                        <article class="menu-card animated" role="listitem" tabindex="0" data-category="bebidas">
                             <img src="/images/bebidas/suco.jpg" alt="suco" />
                             <div class="menu-content">
                                 <h3 class="menu-title">Suco Natural</h3>
@@ -614,11 +655,13 @@
                                     </div>
                                     <span>89 Reviews</span>
                                 </div>
-                                <form asp-controller="Carrinho" asp-action="Adicionar" method="post" class="add-to-cart-form">
+                                <form asp-controller="Carrinho" asp-action="Adicionar" method="post"
+                                    class="add-to-cart-form">
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="produtoId" value="3" />
                                     <input type="hidden" name="quantidade" value="1" />
-                                    <button type="submit" class="add-to-cart-btn" data-produto-id="6" data-produto-nome="Suco Natural">
+                                    <button type="submit" class="add-to-cart-btn" data-produto-id="6"
+                                        data-produto-nome="Suco Natural">
                                         <span class="material-icons" aria-hidden="true">shopping_cart</span>
                                         ADICIONAR AO CARRINHO
                                     </button>
@@ -626,7 +669,7 @@
                             </div>
                         </article>
 
-                         <article class="menu-card animated" role="listitem" tabindex="0" data-category="bebidas">
+                        <article class="menu-card animated" role="listitem" tabindex="0" data-category="bebidas">
                             <img src="/images/bebidas/queijo-com-goiabada.jpg" alt="queijo-com-goiabada" />
                             <div class="menu-content">
                                 <h3 class="menu-title">espeto de romeu e julieta</h3>
@@ -637,11 +680,13 @@
                                     </div>
                                     <span>89 Reviews</span>
                                 </div>
-                                <form asp-controller="Carrinho" asp-action="Adicionar" method="post" class="add-to-cart-form">
+                                <form asp-controller="Carrinho" asp-action="Adicionar" method="post"
+                                    class="add-to-cart-form">
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="produtoId" value="5" />
                                     <input type="hidden" name="quantidade" value="1" />
-                                    <button type="submit" class="add-to-cart-btn" data-produto-id="5" data-produto-nome="Refrigerante">
+                                    <button type="submit" class="add-to-cart-btn" data-produto-id="5"
+                                        data-produto-nome="Refrigerante">
                                         <span class="material-icons" aria-hidden="true">shopping_cart</span>
                                         ADICIONAR AO CARRINHO
                                     </button>
@@ -659,9 +704,10 @@
         <div class="container" role="contentinfo">
             <div>
                 <h3>Local</h3>
-                <address>R. Virgílio Manesco, 21 - Conj. Res. Cel. Jose V. Franca II, Barra Bonita - SP, 17345-060</address>
+                <address>R. Virgílio Manesco, 21 - Conj. Res. Cel. Jose V. Franca II, Barra Bonita - SP, 17345-060
+                </address>
                 <a href="https://maps.app.goo.gl/veXqvEPpqaPnfEF36" class="custom-btn" target="_blank"
-                  rel="noopener noreferrer">Localização</a>
+                    rel="noopener noreferrer">Localização</a>
             </div>
             <div>
                 <h3>Funcionamento</h3>
@@ -673,10 +719,10 @@
                 <h3>Social</h3>
                 <nav class="social-icons" aria-label="Social Media Links">
                     <a href="https://www.instagram.com/osbons.espetosbb" target="_blank" rel="noopener noreferrer"
-                      class="social-icon-link" aria-label="Instagram">
+                        class="social-icon-link" aria-label="Instagram">
                         &#x1F4F7;
                     </a>
-                    
+
                 </nav>
             </div>
         </div>
@@ -703,7 +749,7 @@
             filterButtons.forEach(button => {
                 button.addEventListener('click', function () {
                     const category = this.getAttribute('data-category');
-                    
+
                     // Atualiza botão ativo
                     filterButtons.forEach(btn => btn.classList.remove('active'));
                     this.classList.add('active');
@@ -711,11 +757,11 @@
                     // Filtra os cards - CÓDIGO CORRIGIDO
                     menuCards.forEach(card => {
                         const cardCategory = card.getAttribute('data-category');
-                        
+
                         // Remove espaços e converte para minúsculas para comparação consistente
                         const normalizedCategory = category.toLowerCase().trim();
                         const normalizedCardCategory = (cardCategory || '').toLowerCase().trim();
-                        
+
                         if (normalizedCategory === 'all' || normalizedCardCategory === normalizedCategory) {
                             card.style.display = 'flex';
                             card.classList.remove('hidden');
@@ -732,13 +778,13 @@
                 if (cartNotification && notificationMessage) {
                     notificationMessage.textContent = message;
                     cartNotification.className = 'cart-notification';
-                    
+
                     if (isError) {
                         cartNotification.classList.add('error');
                     }
-                    
+
                     cartNotification.style.display = 'block';
-                    
+
                     setTimeout(() => {
                         cartNotification.style.display = 'none';
                     }, 3000);
@@ -751,7 +797,7 @@
                 if (cartCountElement) {
                     cartCountElement.textContent = `Carrinho (${cartCount})`;
                     cartCountElement.classList.add('pulse');
-                    
+
                     setTimeout(() => {
                         cartCountElement.classList.remove('pulse');
                     }, 1000);
@@ -760,15 +806,15 @@
 
             // Adiciona evento a todos os formulários de carrinho
             const cartForms = document.querySelectorAll('.add-to-cart-form');
-            
+
             cartForms.forEach(form => {
                 form.addEventListener('submit', async function (e) {
                     e.preventDefault(); // Impede o submit padrão
-                    
+
                     const button = this.querySelector('.add-to-cart-btn');
                     const produtoId = button.getAttribute('data-produto-id');
                     const produtoNome = button.getAttribute('data-produto-nome');
-                    
+
                     // Estado de loading
                     button.disabled = true;
                     button.classList.add('loading');
@@ -776,7 +822,7 @@
 
                     try {
                         const formData = new FormData(this);
-                        
+
                         const response = await fetch('/Carrinho/Adicionar', {
                             method: 'POST',
                             body: formData,
@@ -796,13 +842,13 @@
                         if (data.success) {
                             showNotification(`✅ ${produtoNome} adicionado ao carrinho!`);
                             updateCartCount();
-                            
+
                             // Aguarda um pouco antes de redirecionar opcionalmente
                             setTimeout(() => {
                                 // Opcional: redirecionar para o carrinho
                                 // window.location.href = '/Carrinho';
                             }, 1000);
-                            
+
                         } else {
                             showNotification(`❌ ${data.message || 'Erro ao adicionar produto'}`, true);
                         }
@@ -824,7 +870,7 @@
                 card.addEventListener('mouseenter', function () {
                     this.style.transform = 'translateY(-8px)';
                 });
-                
+
                 card.addEventListener('mouseleave', function () {
                     this.style.transform = 'translateY(0)';
                 });
