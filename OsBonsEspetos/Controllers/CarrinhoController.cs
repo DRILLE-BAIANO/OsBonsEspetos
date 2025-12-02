@@ -153,10 +153,10 @@ namespace OsBonsEspetos.Controllers
             {
                 new Produto { Id = 1, Nome = "Espeto de Carne", Preco = 7.50m, Categoria = "espetos" },
                 new Produto { Id = 2, Nome = "Espeto de Frango", Preco = 7.50m, Categoria = "espetos" },
-                new Produto { Id = 3, Nome = "Refrigerante", Preco = 8.00m, Categoria = "bebidas" },
-                new Produto { Id = 4, Nome = "Suco", Preco = 12.00m, Categoria = "bebidas" },
+                new Produto { Id = 3, Nome = "Espeto de Queijo", Preco = 8.00m, Categoria = "espetos" },
+                new Produto { Id = 4, Nome = "Refrigerante", Preco = 8.00m, Categoria = "bebidas" },
                 new Produto { Id = 5, Nome = "Espeto de Romeu e Julieta", Preco = 8.50m, Categoria = "sobremesas" },
-
+                new Produto { Id = 6, Nome = "Suco Natural", Preco = 12.00m, Categoria = "bebidas" },
             };
             return listaDeProdutos.FirstOrDefault(p => p.Id == produtoId);
         }

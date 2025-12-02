@@ -606,7 +606,7 @@
                          <article class="menu-card animated" role="listitem" tabindex="0" data-category="bebidas">
                             <img src="/images/bebidas/suco.jpg" alt="suco" />
                             <div class="menu-content">
-                                <h3 class="menu-title">suco natural</h3>
+                                <h3 class="menu-title">Suco Natural</h3>
                                 <p class="price"><span>R$ 12,00</span></p>
                                 <div class="reviews" aria-label="Rating: 4.2 out of 5 stars, 89 Reviews">
                                     <div class="stars" aria-hidden="true">
@@ -618,7 +618,7 @@
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="produtoId" value="3" />
                                     <input type="hidden" name="quantidade" value="1" />
-                                    <button type="submit" class="add-to-cart-btn" data-produto-id="3" data-produto-nome="Refrigerante">
+                                    <button type="submit" class="add-to-cart-btn" data-produto-id="6" data-produto-nome="Suco Natural">
                                         <span class="material-icons" aria-hidden="true">shopping_cart</span>
                                         ADICIONAR AO CARRINHO
                                     </button>
@@ -639,9 +639,9 @@
                                 </div>
                                 <form asp-controller="Carrinho" asp-action="Adicionar" method="post" class="add-to-cart-form">
                                     @Html.AntiForgeryToken()
-                                    <input type="hidden" name="produtoId" value="3" />
+                                    <input type="hidden" name="produtoId" value="5" />
                                     <input type="hidden" name="quantidade" value="1" />
-                                    <button type="submit" class="add-to-cart-btn" data-produto-id="3" data-produto-nome="Refrigerante">
+                                    <button type="submit" class="add-to-cart-btn" data-produto-id="5" data-produto-nome="Refrigerante">
                                         <span class="material-icons" aria-hidden="true">shopping_cart</span>
                                         ADICIONAR AO CARRINHO
                                     </button>

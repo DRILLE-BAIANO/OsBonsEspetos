@@ -14,10 +14,12 @@ namespace OsBonsEspetos.Controllers
             // Exemplo de produtos - substitua pelos seus dados reais
             var produtos = new List<Produto>
             {
-                new Produto { Id = 1, Nome = "Espeto de Carne", Preco = 25.90m, Descricao = "Espeto de Carne suculenta com temperos especiais", Categoria = "Espetos" },
-                new Produto { Id = 2, Nome = "Espeto de Frango", Preco = 22.50m, Descricao = "Espeto de Frango marinado e grelhado", Categoria = "Espetos" },
-                new Produto { Id = 3, Nome = "Refrigerante", Preco = 8.00m, Descricao = "Refrigerante gelado 350ml", Categoria = "Bebidas" },
-                new Produto { Id = 4, Nome = "Batata Frita", Preco = 12.00m, Descricao = "Porção de batata frita crocante", Categoria = "Acompanhamentos" }
+                 new Produto { Id = 1, Nome = "Espeto de Carne", Preco = 7.50m, Categoria = "espetos" },
+                new Produto { Id = 2, Nome = "Espeto de Frango", Preco = 7.50m, Categoria = "espetos" },
+                new Produto { Id = 3, Nome = "Espeto de Queijo", Preco = 8.00m, Categoria = "espetos" },
+                new Produto { Id = 4, Nome = "Refrigerante", Preco = 8.00m, Categoria = "bebidas" },
+                new Produto { Id = 5, Nome = "Espeto de Romeu e Julieta", Preco = 8.50m, Categoria = "sobremesas" },
+                new Produto { Id = 6, Nome = "Suco Natural", Preco = 12.00m, Categoria = "bebidas" },
             };
 
             // Filtrar por categoria se especificada

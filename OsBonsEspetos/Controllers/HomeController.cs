@@ -38,7 +38,7 @@ namespace OsBonsEspetos.Controllers
                     ImagemUrl = "/images/espetos/frango.png"  // ADICIONADO: URL da imagem
                 },
                 new Produto { 
-                    Id = 2, 
+                    Id = 3, 
                     Nome = "Espeto de Queijo", 
                     Preco = 7.00m, 
                     Descricao = "Espeto de queijo coalho grelhado",
@@ -46,7 +46,7 @@ namespace OsBonsEspetos.Controllers
                     ImagemUrl = "/images/espetos/queijo.png"  // ADICIONADO: URL da imagem
                 },
                 new Produto { 
-                    Id = 3, 
+                    Id = 4, 
                     Nome = "Refrigerante", 
                     Preco = 8.00m, 
                     Descricao = "Refrigerante gelado 350ml",
@@ -64,7 +64,7 @@ namespace OsBonsEspetos.Controllers
                 },
 
                 new Produto { 
-                    Id = 7, 
+                    Id = 6, 
                     Nome = "Suco Natural", 
                     Preco = 12.00m, 
                     Descricao = "Suco natural de laranja",
